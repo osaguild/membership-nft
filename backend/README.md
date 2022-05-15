@@ -13,3 +13,13 @@ npx hardhat node
 node scripts/sample-script.js
 npx hardhat help
 ```
+
+# tips for development
+
+## set up command
+
+- `npm init --yes`
+- `npm install --save-dev hardhat`
+- `npx hardhat`
+- `npm i --save-dev @nomiclabs/hardhat-ethers ethers @nomiclabs/hardhat-waffle ethereum-waffle chai`
+- `npm i @openzeppelin/contracts`
