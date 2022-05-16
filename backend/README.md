@@ -23,3 +23,12 @@ npx hardhat help
 - `npx hardhat`
 - `npm i --save-dev @nomiclabs/hardhat-ethers ethers @nomiclabs/hardhat-waffle ethereum-waffle chai`
 - `npm i @openzeppelin/contracts`
+- `npm install --save-dev ts-node typescript`
+- `npm install --save-dev chai @types/node @types/mocha @types/chai`
+- `mv hardhat.config.js hardhat.config.ts`
+- `cat tsconfig.json`
+
+## compile -> test -> deploy(to local)
+- `npx hardhat compile`
+- `npx hardhat test`
+- `npx hardhat run scripts/deploy.ts`
