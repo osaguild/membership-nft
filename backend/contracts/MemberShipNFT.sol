@@ -11,7 +11,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/E
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Counters.sol";
 */
 
-contract MemberShip is ERC721URIStorage {
+contract MemberShipNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 

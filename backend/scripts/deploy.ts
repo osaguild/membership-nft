@@ -4,9 +4,9 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("deploying contract with the account:", deployer.address);
   console.log("account balance:", (await deployer.getBalance().toString()));
-  const MemberShip = await ethers.getContractFactory("MemberShip");
-  const memberShip = await MemberShip.deploy();
-  console.log("token address:", memberShip.address);
+  const MemberShipNFT = await ethers.getContractFactory("MemberShipNFT");
+  const nft = await MemberShipNFT.deploy();
+  console.log("token address:", nft.address);
 }
 
 main()
