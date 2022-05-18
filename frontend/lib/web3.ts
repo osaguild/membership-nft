@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
 
+let currentAccount: string;
+
 export default async function connectWallet() {
-  alert("connect wallet is called");
 
   try {
     if (!window.ethereum) {
@@ -10,9 +11,11 @@ export default async function connectWallet() {
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.send("eth_requestAccounts", []);
-    console.log("Connected", accounts[0]);
-    //this.currentAccount = accounts[0];
+    currentAccount = accounts[0];
+    alert(`connect success to ${currentAccount}`);
   } catch (error) {
     console.log("reject your connection request", error);
+    alert("reject your connection request. please check console.log");
   }
+
 }

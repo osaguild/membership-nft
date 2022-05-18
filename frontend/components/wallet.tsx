@@ -1,4 +1,3 @@
-import styles from "../styles/wallet.module.scss";
 import connectWallet from "../lib/web3";
 
 export default function Wallet() {
@@ -6,7 +5,7 @@ export default function Wallet() {
     connectWallet();
   }
   return (
-    <div className= "wallet" onClick={click}>
+    <div onClick={click}>
       connect wallet
     </div>
   );
