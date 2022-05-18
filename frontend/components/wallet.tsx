@@ -1,4 +1,4 @@
-import connectWallet from "../lib/web3";
+import { connectWallet } from "../lib/web3";
 import Button from "@mui/material/Button";
 
 export default function Wallet() {

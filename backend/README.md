@@ -31,4 +31,5 @@ npx hardhat help
 ## compile -> test -> deploy(to local)
 - `npx hardhat compile`
 - `npx hardhat test`
-- `npx hardhat run scripts/deploy.ts`
+- `npx hardhat node`
+- `npx hardhat run --network localhost scripts/deploy.ts`

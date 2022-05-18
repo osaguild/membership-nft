@@ -1,7 +1,11 @@
 import Wallet from "../components/wallet";
+import Join from "../components/join";
 
 export default function Home() {
   return (
-    <Wallet></Wallet>
+    <div>
+      <Wallet></Wallet>
+      <Join></Join>
+    </div>
   )
 }
