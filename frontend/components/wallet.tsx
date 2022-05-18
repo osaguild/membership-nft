@@ -1,8 +1,9 @@
 import styles from "../styles/wallet.module.scss";
+import connectWallet from "../lib/web3";
 
 export default function Wallet() {
   function click() {
-    alert("wallet is clicked");
+    connectWallet();
   }
   return (
     <div className= "wallet" onClick={click}>
