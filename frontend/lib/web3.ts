@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 
 let currentAccount: string;
-const managerAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
-const nftAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
+const managerAddress = "0x850Ee12A2B8399363D02eFF9D912080bc732B90B";
+const nftAddress = "0x29104AF936e6D9d5320C5a6df983D8A9d8E0873f";
 const managerAbi = [
   "function addMember(address _nft,address _member) public",
 ];
