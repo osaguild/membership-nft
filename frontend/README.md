@@ -37,3 +37,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## set up command
 - `npx create-next-app@latest frontend --use-npm --typescript`
+- `npm i ethers`
+- `npm install @mui/material @emotion/react @emotion/styled`

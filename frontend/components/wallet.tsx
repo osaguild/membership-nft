@@ -1,12 +1,10 @@
 import connectWallet from "../lib/web3";
+import Button from "@mui/material/Button";
 
 export default function Wallet() {
-  function click() {
-    connectWallet();
-  }
   return (
-    <div onClick={click}>
-      connect wallet
-    </div>
+    <Button variant="contained" onClick={connectWallet}>
+      Wallet
+    </Button>
   );
 }
