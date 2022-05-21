@@ -1,4 +1,6 @@
-import "@nomiclabs/hardhat-waffle";
+import '@typechain/hardhat';
+import '@nomiclabs/hardhat-ethers';
+import '@nomiclabs/hardhat-waffle';
 import * as dotenv from "dotenv";
 
 const PATH_TO_HARDHAT_ENV = `${__dirname}/.env`;

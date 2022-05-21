@@ -1,8 +1,9 @@
 import { ethers } from "ethers";
+import { NFT__factory } from "../typechain-types";
 
 let currentAccount: string;
 const managerAddress = process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS;
-const nftAddress = process.env.NFT_CONTRACT_ADDRESS;
+const nftAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
 const managerAbi = [
   "function addMember(address _nft,address _member) public",
 ];
@@ -41,20 +42,26 @@ export async function addMember() {
     const managerWithSigner = manager.connect(signer);
     const tx = await managerWithSigner.addMember(nftAddress, currentAccount);
     console.log("transaction", tx);
-    alert("add member success");
+    alert("add member success");    
+  } catch (error) {
+    console.log("failed to send transaction", error);
+    alert("failed to send transaction. please check console.log");
+  };
 
-    const nft = await new ethers.Contract(
-      nftAddress,
-      nftAbi,
-      provider,
-    );
+};
+
+export async function getBalance() {
+
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const nft = NFT__factory.connect(nftAddress, provider);
     const balance = await nft.balanceOf(currentAccount);
     console.log("balanceOf", balance);
     alert(`get balance is ${balance.toNumber()}`);
     
   } catch (error) {
     console.log("failed to send transaction", error);
-    alert("failed to send transaction. please check console.log");
+    alert("failed to get balance. please check console.log");
   };
 
 };
