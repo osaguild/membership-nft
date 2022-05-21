@@ -1,4 +1,8 @@
 import "@nomiclabs/hardhat-waffle";
+import * as dotenv from "dotenv";
+
+const PATH_TO_HARDHAT_ENV = `${__dirname}/.env`;
+dotenv.config({ path: PATH_TO_HARDHAT_ENV })
 
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY;
