@@ -34,3 +34,4 @@ npx hardhat help
 - `npx hardhat node`
 - `npx hardhat run scripts/deploy.ts --network localhost`
 - `npx hardhat run scripts/deploy.ts --network rinkeby`
+- `npx hardhat run scripts/deploy_upgrade.ts --network rinkeby`
