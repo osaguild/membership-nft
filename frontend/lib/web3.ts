@@ -1,15 +1,9 @@
 import { ethers } from "ethers";
-import { NFT__factory } from "../typechain-types";
+import { NFT__factory, Manager__factory } from "../typechain-types";
 
 let currentAccount: string;
 const managerAddress = process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS;
 const nftAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
-const managerAbi = [
-  "function addMember(address _nft,address _member) public",
-];
-const nftAbi = [
-  "function balanceOf(address owner) public view virtual override returns (uint256)",
-];
 
 export async function connectWallet() {
 
@@ -34,13 +28,8 @@ export async function addMember() {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const manager = await new ethers.Contract(
-      managerAddress,
-      managerAbi,
-      provider,
-    );
-    const managerWithSigner = manager.connect(signer);
-    const tx = await managerWithSigner.addMember(nftAddress, currentAccount);
+    const manager = Manager__factory.connect(managerAddress, signer);
+    const tx = await manager.addMember(nftAddress, currentAccount);
     console.log("transaction", tx);
     alert("add member success");    
   } catch (error) {
