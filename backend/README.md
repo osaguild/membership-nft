@@ -35,3 +35,4 @@ npx hardhat help
 - `npx hardhat run scripts/deploy.ts --network localhost`
 - `npx hardhat run scripts/deploy.ts --network rinkeby`
 - `npx hardhat run scripts/deploy_manager.ts --network rinkeby`
+- `npx hardhat run scripts/deploy_checker.ts --network rinkeby`
