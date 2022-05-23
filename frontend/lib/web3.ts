@@ -1,9 +1,10 @@
 import { ethers } from "ethers";
-import { NFT__factory, Manager__factory } from "../typechain-types";
+import { NFT__factory, Manager__factory, Checker__factory } from "../typechain-types";
 
 let currentAccount: string;
 const managerAddress = process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS;
 const nftAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
+const checkerAddress = process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS;
 
 export async function connectWallet() {
 
@@ -31,7 +32,7 @@ export async function addMember() {
     const manager = Manager__factory.connect(managerAddress, signer);
     const tx = await manager.addMember(nftAddress, currentAccount);
     console.log("transaction", tx);
-    alert("add member success");    
+    alert("add member success");
   } catch (error) {
     console.log("failed to send transaction", error);
     alert("failed to send transaction. please check console.log");
@@ -47,10 +48,24 @@ export async function getBalance() {
     const balance = await nft.balanceOf(currentAccount);
     console.log("balanceOf", balance);
     alert(`get balance is ${balance.toNumber()}`);
-    
   } catch (error) {
     console.log("failed to send transaction", error);
     alert("failed to get balance. please check console.log");
+  };
+
+};
+
+export async function getQuestion(id: number): Promise<string> {
+
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const checker = Checker__factory.connect(checkerAddress, provider);
+    const question = await checker.getQuestion(id);
+    console.log("question", question);
+    return question;
+  } catch (error) {
+    console.log("failed to get question", error);
+    return "failed to get question";
   };
 
 };
