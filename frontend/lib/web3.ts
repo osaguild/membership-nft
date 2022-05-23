@@ -77,7 +77,7 @@ export async function checkAnswer(id: number, answer: boolean) {
     const signer = provider.getSigner();
     const checker = Checker__factory.connect(checkerAddress, signer);
     const tx = await checker.checkAnswer(id, answer);
-    console.log("check answer", tx);
+    console.log(`check answer id: ${id}`, tx);
   } catch (error) {
     console.log("checkAnswer is failed", error);
     alert("checkAnswer is failed. please check console.log");

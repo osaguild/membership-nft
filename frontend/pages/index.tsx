@@ -8,11 +8,12 @@ export default function Home() {
     <div>
       <div>
         <Wallet />
-        <Join />
-        <Balance />
       </div>
+      <hr />
       <div>
         <Question />
+        <Join />
+        <Balance />
       </div>
     </div>
   )
