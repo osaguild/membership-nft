@@ -1,5 +1,6 @@
-import { getQuestion } from "../lib/web3";
+import { getQuestion, checkAnswer } from "../lib/web3";
 import { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
 
 async function getQuestions() {
   const questions = [];
@@ -26,8 +27,15 @@ export default function Question() {
   } else {
     return (
       <div>
-        <p>{questions[0]}</p>
-        <p>{questions[1]}</p>
+        {questions.map((value: string, index: number) => {
+          return (
+            <p key={index}>
+              <Button variant="contained" onClick={() => checkAnswer(index, true)}>
+                Agree
+              </Button>
+              {value}
+            </p>)
+        })}
       </div>
     );
   }

@@ -18,8 +18,8 @@ export async function connectWallet() {
     currentAccount = accounts[0];
     alert(`connect success to ${currentAccount}`);
   } catch (error) {
-    console.log("reject your connection request", error);
-    alert("reject your connection request. please check console.log");
+    console.log("connectWallet is failed", error);
+    alert("connectWallet is failed. please check console.log");
   }
 
 };
@@ -34,8 +34,8 @@ export async function addMember() {
     console.log("transaction", tx);
     alert("add member success");
   } catch (error) {
-    console.log("failed to send transaction", error);
-    alert("failed to send transaction. please check console.log");
+    console.log("addMenmber is failed", error);
+    alert("addMenmber is failed. please check console.log");
   };
 
 };
@@ -49,8 +49,8 @@ export async function getBalance() {
     console.log("balanceOf", balance);
     alert(`get balance is ${balance.toNumber()}`);
   } catch (error) {
-    console.log("failed to send transaction", error);
-    alert("failed to get balance. please check console.log");
+    console.log("getBalance is failed", error);
+    alert("getBalance is failed. please check console.log");
   };
 
 };
@@ -64,8 +64,23 @@ export async function getQuestion(id: number): Promise<string> {
     console.log("question", question);
     return question;
   } catch (error) {
-    console.log("failed to get question", error);
-    return "failed to get question";
+    console.log("getQuestion is failed", error);
+    return "getQuestion is failed. please check console.log";
+  };
+  
+};
+
+export async function checkAnswer(id: number, answer: boolean) {
+
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const checker = Checker__factory.connect(checkerAddress, signer);
+    const tx = await checker.checkAnswer(id, answer);
+    console.log("check answer", tx);
+  } catch (error) {
+    console.log("checkAnswer is failed", error);
+    alert("checkAnswer is failed. please check console.log");
   };
 
 };
