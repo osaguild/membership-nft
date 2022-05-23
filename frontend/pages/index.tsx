@@ -1,25 +1,15 @@
 import Wallet from "../components/wallet";
 import Join from "../components/join";
-import Balance from "../components/balance";
 import Question from "../components/question";
-import Mint from "../components/mint";
 
 export default function Home() {
   return (
     <div>
-      <div>
-        <Wallet />
-      </div>
+      <Wallet />
       <hr />
-      <div>
-        <Mint />
-      </div>
+      <Question />
       <hr />
-      <div>
-        <Question />
-        <Join />
-        <Balance />
-      </div>
+      <Join />
     </div>
   )
 }
