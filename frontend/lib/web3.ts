@@ -78,9 +78,10 @@ export async function checkAnswer(id: number, answer: boolean) {
     const checker = Checker__factory.connect(checkerAddress, signer);
     const tx = await checker.checkAnswer(id, answer);
     console.log(`check answer id: ${id}`, tx);
+    return true;
   } catch (error) {
     console.log("checkAnswer is failed", error);
-    alert("checkAnswer is failed. please check console.log");
+    return false;
   };
 
 };
