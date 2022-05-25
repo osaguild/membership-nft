@@ -1,6 +1,7 @@
 import { getQuestion } from "../lib/web3";
 import { useState, useEffect } from "react";
 import { Checkbox } from "@mui/material";
+import ReactLoading from "react-loading";
 
 export default function Question() {
   const [isLoading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ export default function Question() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ReactLoading type="bubbles" color="#99ffff" height="300px" width="300px" />;
   } else {
     return (
       <div>
