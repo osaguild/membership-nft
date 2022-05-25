@@ -1,4 +1,5 @@
 import { addMember, checkAnswer } from "../lib/web3";
+import { checkTransaction } from "../lib/etherScan";
 import Button from "@mui/material/Button";
 
 async function mint() {
@@ -8,10 +9,11 @@ async function mint() {
   if (!isCorrect1 || !isCorrect2) { return };
 
   // add member
-  await addMember();
+  const tx = await addMember();
 
   // check transaction
-  // todo: call ethereum api for check
+  const result = await checkTransaction(tx.hash);
+
 }
 
 export default function Join() {

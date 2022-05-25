@@ -32,7 +32,7 @@ export async function addMember() {
     const manager = Manager__factory.connect(managerAddress, signer);
     const tx = await manager.addMember(nftAddress, currentAccount);
     console.log("transaction", tx);
-    alert("add member success");
+    return tx;
   } catch (error) {
     console.log("addMenmber is failed", error);
     alert("addMenmber is failed. please check console.log");
