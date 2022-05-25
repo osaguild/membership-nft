@@ -13,22 +13,6 @@ export default function Question() {
     q1Answer: false,
     q2Answer: false,
   });
-
-  async function getQuestions() {
-    const _q1 = await getQuestion(0);
-    const _q2 = await getQuestion(1);
-    setQuestions({
-      q1Question: _q1,
-      q2Question: _q2,
-    });
-  }
-
-  useEffect(() => {
-    getQuestions().then(() => {
-      setLoading(false);
-    });
-  }, [])
-
   const { q1Question, q2Question } = questions;
   const { q1Answer, q2Answer } = answers;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +21,17 @@ export default function Question() {
       [event.target.name]: event.target.checked,
     });
   };
+  const getQuestions = async () => {
+    const _q1 = await getQuestion(0);
+    const _q2 = await getQuestion(1);
+    setQuestions({
+      q1Question: _q1,
+      q2Question: _q2,
+    });
+  }
+  useEffect(() => {
+    getQuestions().then(() => {setLoading(false)});
+  }, [])
 
   if (isLoading) {
     return <ReactLoading type="bubbles" color="#99ffff" height="300px" width="300px" />;

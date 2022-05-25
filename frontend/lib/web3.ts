@@ -1,87 +1,61 @@
 import { ethers } from "ethers";
-import { NFT__factory, Manager__factory, Checker__factory } from "../typechain-types";
+import { Manager__factory, Checker__factory } from "../typechain-types";
 
 let currentAccount: string;
-const managerAddress = process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS;
-const nftAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
-const checkerAddress = process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS;
 
-export async function connectWallet() {
-
+export async function connectWallet(): Promise<string> {
   try {
     if (!window.ethereum) {
-      alert("you need metamask to use Dapp");
-      return;
+      console.log("connectWallet is failed. you need metamask to use Dapp");
+      return "failed";
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.send("eth_requestAccounts", []);
     currentAccount = accounts[0];
-    alert(`connect success to ${currentAccount}`);
-  } catch (error) {
+    return "success";
+  } catch (error: any) {
     console.log("connectWallet is failed", error);
-    alert("connectWallet is failed. please check console.log");
+    return "failed";
   }
-
 };
 
-export async function addMember() {
-
+export async function addMember(): Promise<[string, any]> {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const manager = Manager__factory.connect(managerAddress, signer);
-    const tx = await manager.addMember(nftAddress, currentAccount);
+    const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS, signer);
+    const tx = await manager.addMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, currentAccount);
     console.log("transaction", tx);
-    return tx;
-  } catch (error) {
+    return ["success", tx];
+  } catch (error: any) {
     console.log("addMenmber is failed", error);
-    alert("addMenmber is failed. please check console.log");
+    return ["failed", error];
   };
-
 };
 
-export async function getBalance() {
-
+export async function getQuestion(id: number): Promise<[string, string]> {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const nft = NFT__factory.connect(nftAddress, provider);
-    const balance = await nft.balanceOf(currentAccount);
-    console.log("balanceOf", balance);
-    alert(`get balance is ${balance.toNumber()}`);
-  } catch (error) {
-    console.log("getBalance is failed", error);
-    alert("getBalance is failed. please check console.log");
-  };
-
-};
-
-export async function getQuestion(id: number): Promise<string> {
-
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const checker = Checker__factory.connect(checkerAddress, provider);
+    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, provider);
     const question = await checker.getQuestion(id);
     console.log("question", question);
-    return question;
+    return ["success", question];
   } catch (error) {
     console.log("getQuestion is failed", error);
-    return "getQuestion is failed. please check console.log";
+    return ["failed", "getQuestion is failed. please check console.log"];
   };
-  
 };
 
-export async function checkAnswer(id: number, answer: boolean) {
-
+export async function checkAnswer(id: number, answer: boolean): Promise<string> {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const checker = Checker__factory.connect(checkerAddress, signer);
+    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, signer);
     const tx = await checker.checkAnswer(id, answer);
     console.log(`check answer id: ${id}`, tx);
-    return true;
+    return (tx === true ? "success" : "failed");
   } catch (error) {
     console.log("checkAnswer is failed", error);
-    return false;
+    return "failed";
   };
-
 };

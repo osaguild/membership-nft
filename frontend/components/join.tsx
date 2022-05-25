@@ -7,24 +7,26 @@ import ReactLoading from "react-loading";
 export default function Join() {
   const [isLoading, setLoading] = useState(false);
 
-  async function mint() {
-    setLoading(true);
-    let message: string = "";
-
-    const isCorrect1: boolean = await checkAnswer(0, true);
-    const isCorrect2: boolean = await checkAnswer(1, true);
-
-    if (isCorrect1 && isCorrect2) {
-      const tx = await addMember();
-      const result = await checkTransaction(tx.hash);
-      message = result === "success" ? "Success to mint!" : "Failed to mint! Please try again.";
-    } else {
-      message = "Failed to mint! Please try again.";
+  const mint = async () => {
+    const success = () => {
+      setLoading(false);
+      alert("Success to mint!");
+    }
+    const failed = (_message: string) => {
+      setLoading(false);
+      alert(`Failed to mint. ${_message}`);
     }
 
-    setLoading(false);
-    alert(message);
-  }
+    setLoading(true);
+    const checkAnswerResult1: string = await checkAnswer(0, true);
+    const checkAnswerResult2: string = await checkAnswer(1, true);
+    if (checkAnswerResult1 === "failed" || checkAnswerResult2 === "failed") { return failed("Your answer is incorrect."); };
+    const [addMemberResult, addMemberData]: [string, any] = await addMember();
+    if (addMemberResult === "failed") { return failed("Add member is failed") };
+    const checkRes = await checkTransaction(addMemberData.hash);
+    if (checkRes === "failed") { return failed("Check transaction is failed") };
+    success();
+  };
 
   if (isLoading) {
     return <ReactLoading type="bubbles" color="#99ffff" height="300px" width="300px" />;
