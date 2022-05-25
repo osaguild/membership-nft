@@ -22,11 +22,12 @@ export default function Question() {
     });
   };
   const getQuestions = async () => {
-    const _q1 = await getQuestion(0);
-    const _q2 = await getQuestion(1);
+    const [q1Result,q1Text] = await getQuestion(0);
+    const [q2Result,q2Text] = await getQuestion(1);
+    if (q1Result === "failed" || q2Result === "failed") { return};
     setQuestions({
-      q1Question: _q1,
-      q2Question: _q2,
+      q1Question: q1Text,
+      q2Question: q2Text,
     });
   }
   useEffect(() => {
