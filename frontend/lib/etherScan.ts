@@ -10,12 +10,12 @@ async function checkContractExecutionStatus(txhash: string) {
   const uri = encodeURI(`https://api-rinkeby.etherscan.io/api?module=transaction&action=getstatus&txhash=${txhash}&apikey=${process.env.NEXT_PUBLIC_ETHER_SCAN_API_KEY}`);
   const res = await axios.get(uri);
   console.log("check 1: ",res.data);
-  return (res.data.status === 1 ? "success" : "failed");
+  return (res.data.status === "1" ? "success" : "failed");
 };
 
 async function checkTransactionReceiptStatus(txhash: string) {
   const uri = encodeURI(`https://api-rinkeby.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash=${txhash}&apikey=${process.env.NEXT_PUBLIC_ETHER_SCAN_API_KEY}`);
   const res = await axios.get(uri);
   console.log("check 2: ",res.data);
-  return (res.data.status === 1 ? "success" : "failed");
+  return (res.data.status === "1" ? "success" : "failed");
 };
