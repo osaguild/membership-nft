@@ -37,7 +37,7 @@ export default function Home() {
         <hr />
         <Question questions={questions} answers={answers} setAnswers={setAnswers} />
         <hr />
-        <Join />
+        <Join answers={answers} setLoading={setLoading} />
       </div>
     )
   }
