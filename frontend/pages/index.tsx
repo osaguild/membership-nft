@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { getQuestion } from "../lib/web3";
 
 export default function Home() {
+  const [account, setAccount] = useState(undefined);
   const [isLoading, setLoading] = useState(true);
   const [questions, setQuestions] = useState({
     q1Question: "",
@@ -33,11 +34,11 @@ export default function Home() {
   } else {
     return (
       <div>
-        <Wallet />
+        <Wallet account={account} setAccount={setAccount} />
         <hr />
         <Question questions={questions} answers={answers} setAnswers={setAnswers} />
         <hr />
-        <Join answers={answers} setLoading={setLoading} />
+        <Join account={account} answers={answers} setLoading={setLoading} />
       </div>
     )
   }
