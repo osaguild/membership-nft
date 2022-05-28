@@ -13,6 +13,11 @@ contract Checker {
         bool isActive;
     }
     mapping(uint256 => Question) private _questions;
+    struct Answer {
+        uint256[] ids;
+        bool[] answers;
+    }
+    mapping(address => Answer) private _answers;
 
     /*
      * @dev Set question text and answer
@@ -105,5 +110,24 @@ contract Checker {
         return (true, "Correct answer");
     }
 
+    /*
+     * @dev Set answer of question
+     * @param uint256[] ids - The id of the question to set answer
+     * @param bool[] answers - The answer of the question
+     */
+    function setAnswers(uint256[] memory ids, bool[] memory answers) external {
+        require(ids.length != 0 && answers.length != 0, "Format is wrong");
+        require(ids.length == answers.length, "Format is wrong");
+
+        for (uint256 i = 0; i < ids.length; i++) {
+            _answers[msg.sender].ids.push(ids[i]);
+            _answers[msg.sender].answers.push(answers[i]);
+        }
+
+        emit AnswerAdded(msg.sender);
+    }
+
     event QuestionAdded(address sender, uint256 id);
+    
+    event AnswerAdded(address sender);
 }

@@ -21,7 +21,7 @@ describe("NFT.sol", async function () {
   it("mint", async function () {
 
     // mint and check balance
-    await nft.mint(user1.address, "test");
+    nft.mint(user1.address, "test");
     expect(await nft.balanceOf(user1.address)).to.equal(1);
     expect(await nft.balanceOf(owner.address)).to.equal(0);
 
@@ -55,7 +55,7 @@ describe("Manager.sol", async function () {
   it("add member", async function () {
 
     // mint and check balance
-    await manager.addMember(nft.address, user1.address);
+    manager.addMember(nft.address, user1.address);
     expect(await nft.balanceOf(user1.address)).to.equal(1);
     expect(await nft.balanceOf(owner.address)).to.equal(0);
 
@@ -111,7 +111,7 @@ describe("Checker.sol", async function () {
   it("set question 1", async function () {
 
     // set question
-    await expect(await checker.setQuestion(text1, answer1)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 1);
+    await expect(checker.setQuestion(text1, answer1)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 1);
 
     // count of question
     expect(await checker.getCountOfQuestions()).to.equal(1);
@@ -136,7 +136,7 @@ describe("Checker.sol", async function () {
   it("set question 2", async function () {
 
     // set question
-    await expect(await checker.setQuestion(text2, answer2)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 2);
+    await expect(checker.setQuestion(text2, answer2)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 2);
 
     // count of question
     expect(await checker.getCountOfQuestions()).to.equal(2);
@@ -208,6 +208,31 @@ describe("Checker.sol", async function () {
     const [isCollect6, message6] = await checker.checkAnswers(ids6, answers6);
     expect(isCollect6).to.equal(true);
     expect(message6).to.equal("Correct answer");
+
+  });
+
+  it("set answers", async function () {
+
+    // empty ids
+    const ids0: number[] = [];
+    const answers0: boolean[] = [true, false];
+    await expect(checker.setAnswers(ids0, answers0)).to.be.revertedWith("Format is wrong");
+
+
+    // empty answers
+    const ids1: number[] = [1, 2];
+    const answers1: boolean[] = [];
+    await expect(checker.setAnswers(ids1, answers1)).to.be.revertedWith("Format is wrong");
+
+    // length of ids and answers are different
+    const ids2: number[] = [1];
+    const answers2: boolean[] = [true, false];
+    await expect(checker.setAnswers(ids2, answers2)).to.be.revertedWith("Format is wrong");
+
+    // collect answer
+    const ids3: number[] = [1, 2];
+    const answers3: boolean[] = [true, false];
+    await expect(checker.setAnswers(ids3, answers3)).to.emit(checker, "AnswerAdded").withArgs(owner.address);
 
   });
 
