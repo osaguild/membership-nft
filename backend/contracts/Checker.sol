@@ -43,13 +43,13 @@ contract Checker {
     function getQuestion(uint256 id)
         public
         view
-        returns (bool isCollectId, string memory data)
+        returns (string memory data)
     {
-        if (_questions[id].isActive) {
-            return (true, _questions[id].text);
-        } else {
-            return (false, "Question is not active or out of range");
-        }
+        require(
+            _questions[id].isActive,
+            "Question is not active or out of range"
+        );
+        return (_questions[id].text);
     }
 
     /*
@@ -128,6 +128,6 @@ contract Checker {
     }
 
     event QuestionAdded(address sender, uint256 id);
-    
+
     event AnswerAdded(address sender);
 }

@@ -92,19 +92,13 @@ describe("Checker.sol", async function () {
     expect(await checker.getCountOfQuestions()).to.equal(0);
 
     // question 0
-    const [isCollectId0, data0] = await checker.getQuestion(0);
-    expect(isCollectId0).to.equal(false);
-    expect(data0).to.equal("Question is not active or out of range");
-
+    await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
+    
     // question 1
-    const [isCollectId1, data1] = await checker.getQuestion(1);
-    expect(isCollectId1).to.equal(false);
-    expect(data1).to.equal("Question is not active or out of range");
-
+    await expect(checker.getQuestion(1)).to.be.revertedWith("Question is not active or out of range");
+    
     // question 2
-    const [isCollectId2, data2] = await checker.getQuestion(2);
-    expect(isCollectId2).to.equal(false);
-    expect(data2).to.equal("Question is not active or out of range");
+    await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
 
   });
 
@@ -117,19 +111,13 @@ describe("Checker.sol", async function () {
     expect(await checker.getCountOfQuestions()).to.equal(1);
 
     // question 0
-    const [isCollectId0, data0] = await checker.getQuestion(0);
-    expect(isCollectId0).to.equal(false);
-    expect(data0).to.equal("Question is not active or out of range");
+    await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
 
     // question 1
-    const [isCollectId1, data1] = await checker.getQuestion(1);
-    expect(isCollectId1).to.equal(true);
-    expect(data1).to.equal(text1);
+    expect(await checker.getQuestion(1)).to.equal(text1);
 
     // question 2
-    const [isCollectId2, data2] = await checker.getQuestion(2);
-    expect(isCollectId2).to.equal(false);
-    expect(data2).to.equal("Question is not active or out of range");
+    await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
 
   });
 
@@ -142,19 +130,13 @@ describe("Checker.sol", async function () {
     expect(await checker.getCountOfQuestions()).to.equal(2);
 
     // question 0
-    const [isCollectId0, data0] = await checker.getQuestion(0);
-    expect(isCollectId0).to.equal(false);
-    expect(data0).to.equal("Question is not active or out of range");
+    await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
 
     // question 1
-    const [isCollectId1, data1] = await checker.getQuestion(1);
-    expect(isCollectId1).to.equal(true);
-    expect(data1).to.equal(text1);
+    expect(await checker.getQuestion(1)).to.equal(text1);
 
     // question 2
-    const [isCollectId2, data2] = await checker.getQuestion(2);
-    expect(isCollectId2).to.equal(true);
-    expect(data2).to.equal(text2);
+    expect(await checker.getQuestion(2)).to.equal(text2);
 
   });
 
