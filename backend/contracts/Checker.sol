@@ -18,19 +18,15 @@ contract Checker {
      * @dev Set question text and answer
      * @param string text - The text of question
      * @param bool answer - The answer of question
-     * @return uint256 id - The id of question
      */
-    function setQuestion(string memory text, bool answer)
-        external
-        returns (uint256 id)
-    {
+    function setQuestion(string memory text, bool answer) external {
         _totalCount.increment();
         uint256 _id = _totalCount.current();
         _questions[_id].text = text;
         _questions[_id].answer = answer;
         _questions[_id].isActive = true;
 
-        return id;
+        emit QuestionAdded(msg.sender, _id);
     }
 
     /*
@@ -47,9 +43,8 @@ contract Checker {
         if (_questions[id].isActive) {
             return (true, _questions[id].text);
         } else {
-            return (false, "Question is not active");
+            return (false, "Question is not active or out of range");
         }
-        //return (false, "Id is out of range");
     }
 
     /*
@@ -65,32 +60,50 @@ contract Checker {
      * @dev Check answers of question
      * @param uint256[] ids - The id of the question to check
      * @param bool[] answers - The answer of the question
+     * @return bool isCorrect - True if the answers are correct, false otherwise
      * @return string message - The message about check answers
      */
-    function checkAnswers(uint256[] memory ids, bool[] memory answers) public view returns (bool isCollect, string memory message) {
-        // check1: your answers are correct
+    function checkAnswers(uint256[] memory ids, bool[] memory answers)
+        public
+        view
+        returns (bool isCollect, string memory message)
+    {
+        // check1: format is wrong
+        if (ids.length == 0 || answers.length == 0) {
+            return (false, "Format is wrong");
+        }
+        if (ids.length != answers.length) {
+            return (false, "Format is wrong");
+        }
+
+        // check2: answer is wrong
         for (uint256 i = 0; i < ids.length; i++) {
             if (_questions[ids[i]].isActive) {
                 if (_questions[ids[i]].answer != answers[i]) {
-                    return (false, "Your answers are incorrect");
+                    return (false, "Answer is wrong");
                 }
             }
         }
-        // check2: all active questions are answered
+        // check3: all active questions are answered
         for (uint256 i = 1; i <= _totalCount.current(); i++) {
             if (_questions[i].isActive) {
                 bool answered = false;
                 for (uint256 j = 0; j < ids.length; j++) {
                     if (i == ids[j]) {
                         answered = true;
-                        break; 
+                        break;
                     }
                 }
                 if (!answered) {
-                    return (false, "You have not answered all active questions");
+                    return (
+                        false,
+                        "You have not answered all active questions"
+                    );
                 }
             }
         }
-        return (true, "All answers are correct");
+        return (true, "Correct answer");
     }
+
+    event QuestionAdded(address sender, uint256 id);
 }
