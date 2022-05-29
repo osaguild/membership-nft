@@ -111,29 +111,20 @@ contract Checker {
         emit AnswerAdded(msg.sender);
     }
 
-    function checkAnswers() external {
-        bool collect = true;
+    /*
+     * @dev Check answers is collected
+     */
+    function checkAnswers() external view {
         for (uint256 i = 0; i < _answers[msg.sender].ids.length; i++) {
-            if (
-                _questions[_answers[msg.sender].ids[i]].answer !=
-                _answers[msg.sender].answers[i]
-            ) {
-                collect = false;
-                break;
-            }
-        }
-        if (collect) {
-            emit CorrectAnswer(msg.sender);
-        } else {
-            emit WrongAnswer(msg.sender);
+            require(
+                _questions[_answers[msg.sender].ids[i]].answer ==
+                    _answers[msg.sender].answers[i],
+                "Answer is wrong"
+            );
         }
     }
 
     event QuestionAdded(address sender, uint256 id);
 
     event AnswerAdded(address sender);
-
-    event CorrectAnswer(address sender);
-
-    event WrongAnswer(address sender);
 }

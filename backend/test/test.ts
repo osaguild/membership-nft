@@ -200,16 +200,15 @@ describe("Checker.sol", async function () {
 
   });
 
-  describe("check answers", () => {
-    
-    it("collect answers", async () => {
-      await expect(checker.connect(user1).checkAnswers()).to.emit(checker, "CorrectAnswer").withArgs(user1.address);
-    });
-    
-    it("wrong answers", async () => {
-      await expect(checker.connect(user2).checkAnswers()).to.emit(checker, "WrongAnswer").withArgs(user2.address);
-    });
-    
-  });
+  describe("check wrong answers", () => {
 
+    it("collect answers", async () => {
+      await expect(checker.connect(user2).checkAnswers());
+    });
+
+    it("wrong answers", async () => {
+      await expect(checker.connect(user1).checkAnswers()).to.be.revertedWith("Answer is wrong");
+    });
+
+  });
 });
