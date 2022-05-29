@@ -74,8 +74,7 @@ contract Checker {
         // check2: Answer check
         for (uint256 i = 0; i < ids.length; i++) {
             require(
-                _questions[ids[i]].isActive &&
-                    _questions[ids[i]].answer == answers[i],
+                _questions[ids[i]].isActive,
                 "Answer check error"
             );
         }

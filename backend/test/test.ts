@@ -1,14 +1,14 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 
-describe("NFT.sol", async function () {
+describe("NFT.sol", () => {
 
   let owner: any;
   let user1: any;
   let user2: any;
   let nft: any;
 
-  before(async function () {
+  before(async () => {
     // accounts
     [owner, user1, user2] = await ethers.getSigners();
 
@@ -18,12 +18,19 @@ describe("NFT.sol", async function () {
 
   });
 
-  it("mint", async function () {
+  describe("mint", () => {
 
-    // mint and check balance
-    nft.mint(user1.address, "test");
-    expect(await nft.balanceOf(user1.address)).to.equal(1);
-    expect(await nft.balanceOf(owner.address)).to.equal(0);
+    before(() => {
+      nft.mint(user1.address, "test");
+    });
+
+    it("balanceOf user1", async () => {
+      expect(await nft.balanceOf(user1.address)).to.equal(1);
+    });
+
+    it("balanceOf owner", async () => {
+      expect(await nft.balanceOf(owner.address)).to.equal(0);
+    });
 
   });
 
@@ -52,12 +59,19 @@ describe("Manager.sol", async function () {
 
   });
 
-  it("add member", async function () {
+  describe("add member", () => {
 
-    // mint and check balance
-    manager.addMember(nft.address, user1.address);
-    expect(await nft.balanceOf(user1.address)).to.equal(1);
-    expect(await nft.balanceOf(owner.address)).to.equal(0);
+    before(() => {
+      manager.addMember(nft.address, user1.address);
+    });
+
+    it("balanceOf user1", async () => {
+      expect(await nft.balanceOf(user1.address)).to.equal(1);
+    });
+
+    it("balanceOf owner", async () => {
+      expect(await nft.balanceOf(owner.address)).to.equal(0);
+    });
 
   });
 
@@ -86,96 +100,103 @@ describe("Checker.sol", async function () {
 
   });
 
-  it("before set question", async function () {
+  describe("before set question", () => {
 
-    // count of question
-    expect(await checker.getCountOfQuestions()).to.equal(0);
+    it("getCountOfQuestions", async () => {
+      expect(await checker.getCountOfQuestions()).to.equal(0);
+    });
 
-    // question 0
-    await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
+    it("getQuestion 0", async () => {
+      await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
+    });
 
-    // question 1
-    await expect(checker.getQuestion(1)).to.be.revertedWith("Question is not active or out of range");
+    it("getQuestion 1", async () => {
+      await expect(checker.getQuestion(1)).to.be.revertedWith("Question is not active or out of range");
+    });
 
-    // question 2
-    await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
-
-  });
-
-  it("set question 1", async function () {
-
-    // set question
-    await expect(checker.setQuestion(text1, answer1)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 1);
-
-    // count of question
-    expect(await checker.getCountOfQuestions()).to.equal(1);
-
-    // question 0
-    await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
-
-    // question 1
-    expect(await checker.getQuestion(1)).to.equal(text1);
-
-    // question 2
-    await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
+    it("getQuestion 2", async () => {
+      await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
+    });
 
   });
 
-  it("set question 2", async function () {
+  describe("set question 1", () => {
 
-    // set question
-    await expect(checker.setQuestion(text2, answer2)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 2);
+    it("setQuestion", async () => {
+      await expect(checker.setQuestion(text1, answer1)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 1);
+    });
 
-    // count of question
-    expect(await checker.getCountOfQuestions()).to.equal(2);
+    it("getCountOfQuestions", async () => {
+      expect(await checker.getCountOfQuestions()).to.equal(1);
+    });
 
-    // question 0
-    await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
+    it("getQuestion 0", async () => {
+      await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
+    });
 
-    // question 1
-    expect(await checker.getQuestion(1)).to.equal(text1);
+    it("getQuestion 1", async () => {
+      expect(await checker.getQuestion(1)).to.equal(text1);
+    });
 
-    // question 2
-    expect(await checker.getQuestion(2)).to.equal(text2);
+    it("getQuestion 2", async () => {
+      await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
+    });
 
   });
 
-  it("regist answers", async function () {
+  describe("set question 2", () => {
 
-    // empty ids
-    const ids0: number[] = [];
-    const answers0: boolean[] = [true, false];
-    await expect(checker.registAnswers(ids0, answers0)).to.be.revertedWith("Format check error");
+    it("setQuestion", async () => {
+      await expect(checker.setQuestion(text2, answer2)).to.emit(checker, "QuestionAdded").withArgs(owner.address, 2);
+    });
 
-    // empty answers
-    const ids1: number[] = [1, 2];
-    const answers1: boolean[] = [];
-    await expect(checker.registAnswers(ids1, answers1)).to.be.revertedWith("Format check error");
+    it("getCountOfQuestions", async () => {
+      expect(await checker.getCountOfQuestions()).to.equal(2);
+    });
 
-    // length of ids and answers are different
-    const ids2: number[] = [1];
-    const answers2: boolean[] = [true, false];
-    await expect(checker.registAnswers(ids2, answers2)).to.be.revertedWith("Format check error");
+    it("getQuestion 0", async () => {
+      await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
+    });
 
-    // wrong answer
-    const ids3: number[] = [1, 2];
-    const answers3: boolean[] = [true, true];
-    await expect(checker.registAnswers(ids3, answers3)).to.be.revertedWith("Answer check error");
+    it("getQuestion 1", async () => {
+      expect(await checker.getQuestion(1)).to.equal(text1);
+    });
 
-    // not enouth answers
-    const ids4: number[] = [2];
-    const answers4: boolean[] = [false];
-    await expect(checker.registAnswers(ids4, answers4)).to.be.revertedWith("Active answer check error");
+    it("getQuestion 2", async () => {
+      expect(await checker.getQuestion(2)).to.equal(text2);
+    });
 
-    // too much answers
-    const ids5: number[] = [1, 2, 3];
-    const answers5: boolean[] = [true, false, true];
-    await expect(checker.registAnswers(ids5, answers5)).to.be.revertedWith("Answer check error");
+  });
 
-    // collect answer
-    const ids6: number[] = [1, 2];
-    const answers6: boolean[] = [true, false];
-    await expect(checker.registAnswers(ids6, answers6)).to.emit(checker, "AnswerAdded").withArgs(owner.address);
+  describe("regist answers", () => {
+
+    it("empty ids", async () => {
+      await expect(checker.registAnswers([], [true, false])).to.be.revertedWith("Format check error");
+    });
+
+    it("empty answers", async () => {
+      await expect(checker.registAnswers([1, 2], [])).to.be.revertedWith("Format check error");
+    });
+
+    it("different length of ids and answers", async () => {
+      await expect(checker.registAnswers([1], [true, false])).to.be.revertedWith("Format check error");
+    });
+
+    it("not enouth answers", async () => {
+      await expect(checker.registAnswers([2], [false])).to.be.revertedWith("Active answer check error");
+    });
+
+    it("too much answers", async () => {
+      await expect(checker.registAnswers([1, 2, 3], [true, false, true])).to.be.revertedWith("Answer check error");
+    });
+
+    it("collect answers", async () => {
+      await expect(checker.registAnswers([1, 2], [true, false])).to.emit(checker, "AnswerAdded").withArgs(owner.address);
+    });
+
+    it("wrong answers", async () => {
+      await expect(checker.registAnswers([1, 2], [true, true])).to.emit(checker, "AnswerAdded").withArgs(owner.address);
+    });
 
   });
 
