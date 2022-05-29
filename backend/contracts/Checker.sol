@@ -37,14 +37,9 @@ contract Checker {
     /*
      * @dev Get active question
      * @param uint256 id - The id of the question to check
-     * @return bool isCollectId - True if the question is active, false otherwise indluding does not exist
      * @return string data - The text of the question if the question is active, the reason of not active otherwise
      */
-    function getQuestion(uint256 id)
-        public
-        view
-        returns (string memory data)
-    {
+    function getQuestion(uint256 id) public view returns (string memory data) {
         require(
             _questions[id].isActive,
             "Question is not active or out of range"
@@ -66,30 +61,28 @@ contract Checker {
      * @param uint256[] ids - The id of the question to check
      * @param bool[] answers - The answer of the question
      * @return bool isCorrect - True if the answers are correct, false otherwise
-     * @return string message - The message about check answers
      */
     function checkAnswers(uint256[] memory ids, bool[] memory answers)
         public
         view
-        returns (bool isCollect, string memory message)
+        returns (bool isCollect)
     {
-        // check1: format is wrong
-        if (ids.length == 0 || answers.length == 0) {
-            return (false, "Format is wrong");
-        }
-        if (ids.length != answers.length) {
-            return (false, "Format is wrong");
+        // check1: Format check
+        require(
+            ids.length != 0 && ids.length == answers.length,
+            "Format check error"
+        );
+
+        // check2: Answer check
+        for (uint256 i = 0; i < ids.length; i++) {
+            require(
+                _questions[ids[i]].isActive &&
+                    _questions[ids[i]].answer == answers[i],
+                "Answer check error"
+            );
         }
 
-        // check2: answer is wrong
-        for (uint256 i = 0; i < ids.length; i++) {
-            if (_questions[ids[i]].isActive) {
-                if (_questions[ids[i]].answer != answers[i]) {
-                    return (false, "Answer is wrong");
-                }
-            }
-        }
-        // check3: all active questions are answered
+        // check3: Active answer check
         for (uint256 i = 1; i <= _totalCount.current(); i++) {
             if (_questions[i].isActive) {
                 bool answered = false;
@@ -99,15 +92,10 @@ contract Checker {
                         break;
                     }
                 }
-                if (!answered) {
-                    return (
-                        false,
-                        "You have not answered all active questions"
-                    );
-                }
+                require(answered, "You have not answered all active questions");
             }
         }
-        return (true, "Correct answer");
+        return true;
     }
 
     /*

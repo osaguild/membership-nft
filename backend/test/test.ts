@@ -93,10 +93,10 @@ describe("Checker.sol", async function () {
 
     // question 0
     await expect(checker.getQuestion(0)).to.be.revertedWith("Question is not active or out of range");
-    
+
     // question 1
     await expect(checker.getQuestion(1)).to.be.revertedWith("Question is not active or out of range");
-    
+
     // question 2
     await expect(checker.getQuestion(2)).to.be.revertedWith("Question is not active or out of range");
 
@@ -145,51 +145,37 @@ describe("Checker.sol", async function () {
     // empty ids
     const ids0: number[] = [];
     const answers0: boolean[] = [true, false];
-    const [isCollect0, message0] = await checker.checkAnswers(ids0, answers0);
-    expect(isCollect0).to.equal(false);
-    expect(message0).to.equal("Format is wrong");
+    await expect(checker.checkAnswers(ids0, answers0)).to.be.revertedWith("Format check error");
 
     // empty answers
     const ids1: number[] = [1, 2];
     const answers1: boolean[] = [];
-    const [isCollect1, message1] = await checker.checkAnswers(ids1, answers1);
-    expect(isCollect1).to.equal(false);
-    expect(message1).to.equal("Format is wrong");
+    await expect(checker.checkAnswers(ids1, answers1)).to.be.revertedWith("Format check error");
 
     // length of ids and answers are different
     const ids2: number[] = [1];
     const answers2: boolean[] = [true, false];
-    const [isCollect2, message2] = await checker.checkAnswers(ids2, answers2);
-    expect(isCollect2).to.equal(false);
-    expect(message2).to.equal("Format is wrong");
+    await expect(checker.checkAnswers(ids2, answers2)).to.be.revertedWith("Format check error");
 
     // wrong answer
     const ids3: number[] = [1, 2];
     const answers3: boolean[] = [true, true];
-    const [isCollect3, message3] = await checker.checkAnswers(ids3, answers3);
-    expect(isCollect3).to.equal(false);
-    expect(message3).to.equal("Answer is wrong");
+    await expect(checker.checkAnswers(ids3, answers3)).to.be.revertedWith("Answer check error");
 
     // not enouth answers
     const ids4: number[] = [2];
     const answers4: boolean[] = [false];
-    const [isCollect4, message4] = await checker.checkAnswers(ids4, answers4);
-    expect(isCollect4).to.equal(false);
-    expect(message4).to.equal("You have not answered all active questions");
+    await expect(checker.checkAnswers(ids4, answers4)).to.be.revertedWith("You have not answered all active questions");
 
     // too much answers
     const ids5: number[] = [1, 2, 3];
     const answers5: boolean[] = [true, false, true];
-    const [isCollect5, message5] = await checker.checkAnswers(ids5, answers5);
-    expect(isCollect5).to.equal(true);
-    expect(message5).to.equal("Correct answer");
+    await expect(checker.checkAnswers(ids5, answers5)).to.be.revertedWith("Answer check error");
 
     // collect answer
     const ids6: number[] = [1, 2];
     const answers6: boolean[] = [true, false];
-    const [isCollect6, message6] = await checker.checkAnswers(ids6, answers6);
-    expect(isCollect6).to.equal(true);
-    expect(message6).to.equal("Correct answer");
+    expect(await checker.checkAnswers(ids6, answers6)).to.equal(true);
 
   });
 
