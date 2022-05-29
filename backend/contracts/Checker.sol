@@ -60,12 +60,10 @@ contract Checker {
      * @dev Check answers of question
      * @param uint256[] ids - The id of the question to check
      * @param bool[] answers - The answer of the question
-     * @return bool isCorrect - True if the answers are correct, false otherwise
      */
-    function checkAnswers(uint256[] memory ids, bool[] memory answers)
-        public
+    function validateAnswers(uint256[] memory ids, bool[] memory answers)
+        internal
         view
-        returns (bool isCollect)
     {
         // check1: Format check
         require(
@@ -92,10 +90,9 @@ contract Checker {
                         break;
                     }
                 }
-                require(answered, "You have not answered all active questions");
+                require(answered, "Active answer check error");
             }
         }
-        return true;
     }
 
     /*
@@ -103,10 +100,13 @@ contract Checker {
      * @param uint256[] ids - The id of the question to set answer
      * @param bool[] answers - The answer of the question
      */
-    function setAnswers(uint256[] memory ids, bool[] memory answers) external {
-        require(ids.length != 0 && answers.length != 0, "Format is wrong");
-        require(ids.length == answers.length, "Format is wrong");
+    function registAnswers(uint256[] memory ids, bool[] memory answers)
+        external
+    {
+        // validation
+        validateAnswers(ids, answers);
 
+        // regist answers
         for (uint256 i = 0; i < ids.length; i++) {
             _answers[msg.sender].ids.push(ids[i]);
             _answers[msg.sender].answers.push(answers[i]);

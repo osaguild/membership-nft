@@ -140,67 +140,42 @@ describe("Checker.sol", async function () {
 
   });
 
-  it("check answers", async function () {
+  it("regist answers", async function () {
 
     // empty ids
     const ids0: number[] = [];
     const answers0: boolean[] = [true, false];
-    await expect(checker.checkAnswers(ids0, answers0)).to.be.revertedWith("Format check error");
+    await expect(checker.registAnswers(ids0, answers0)).to.be.revertedWith("Format check error");
 
     // empty answers
     const ids1: number[] = [1, 2];
     const answers1: boolean[] = [];
-    await expect(checker.checkAnswers(ids1, answers1)).to.be.revertedWith("Format check error");
+    await expect(checker.registAnswers(ids1, answers1)).to.be.revertedWith("Format check error");
 
     // length of ids and answers are different
     const ids2: number[] = [1];
     const answers2: boolean[] = [true, false];
-    await expect(checker.checkAnswers(ids2, answers2)).to.be.revertedWith("Format check error");
+    await expect(checker.registAnswers(ids2, answers2)).to.be.revertedWith("Format check error");
 
     // wrong answer
     const ids3: number[] = [1, 2];
     const answers3: boolean[] = [true, true];
-    await expect(checker.checkAnswers(ids3, answers3)).to.be.revertedWith("Answer check error");
+    await expect(checker.registAnswers(ids3, answers3)).to.be.revertedWith("Answer check error");
 
     // not enouth answers
     const ids4: number[] = [2];
     const answers4: boolean[] = [false];
-    await expect(checker.checkAnswers(ids4, answers4)).to.be.revertedWith("You have not answered all active questions");
+    await expect(checker.registAnswers(ids4, answers4)).to.be.revertedWith("Active answer check error");
 
     // too much answers
     const ids5: number[] = [1, 2, 3];
     const answers5: boolean[] = [true, false, true];
-    await expect(checker.checkAnswers(ids5, answers5)).to.be.revertedWith("Answer check error");
+    await expect(checker.registAnswers(ids5, answers5)).to.be.revertedWith("Answer check error");
 
     // collect answer
     const ids6: number[] = [1, 2];
     const answers6: boolean[] = [true, false];
-    expect(await checker.checkAnswers(ids6, answers6)).to.equal(true);
-
-  });
-
-  it("set answers", async function () {
-
-    // empty ids
-    const ids0: number[] = [];
-    const answers0: boolean[] = [true, false];
-    await expect(checker.setAnswers(ids0, answers0)).to.be.revertedWith("Format is wrong");
-
-
-    // empty answers
-    const ids1: number[] = [1, 2];
-    const answers1: boolean[] = [];
-    await expect(checker.setAnswers(ids1, answers1)).to.be.revertedWith("Format is wrong");
-
-    // length of ids and answers are different
-    const ids2: number[] = [1];
-    const answers2: boolean[] = [true, false];
-    await expect(checker.setAnswers(ids2, answers2)).to.be.revertedWith("Format is wrong");
-
-    // collect answer
-    const ids3: number[] = [1, 2];
-    const answers3: boolean[] = [true, false];
-    await expect(checker.setAnswers(ids3, answers3)).to.emit(checker, "AnswerAdded").withArgs(owner.address);
+    await expect(checker.registAnswers(ids6, answers6)).to.emit(checker, "AnswerAdded").withArgs(owner.address);
 
   });
 
