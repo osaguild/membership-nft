@@ -43,6 +43,7 @@ describe("Manager.sol", async function () {
   let user2: any;
   let nft: any;
   let manager: any;
+  let checker: any;
 
   before(async function () {
 
@@ -57,26 +58,60 @@ describe("Manager.sol", async function () {
     const Manager = await ethers.getContractFactory("Manager");
     manager = await Manager.deploy();
 
+    // deploy Checker
+    const Checker = await ethers.getContractFactory("Checker");
+    checker = await Checker.deploy();
+
+    // set question and answers
+    await checker.setQuestion("test1", true);
+    await checker.setQuestion("test2", false);
+    await checker.setQuestion("test3", true);
+    await checker.connect(user1).registAnswers([1, 2, 3], [true, false, true]);
+    await checker.connect(user2).registAnswers([1, 2, 3], [true, true, true]);
+
   });
 
-  describe("add member", () => {
+  describe("add member with collect answer", () => {
 
-    before(() => {
-      manager.addMember(nft.address, user1.address);
-    });
-
-    it("balanceOf user1", async () => {
-      expect(await nft.balanceOf(user1.address)).to.equal(1);
+    it("addMember", async () => {
+      await expect(manager.connect(user1).addMember(nft.address, checker.address, user1.address)).to.emit(nft, "Transfer").withArgs("0x0000000000000000000000000000000000000000", user1.address, 1);
     });
 
     it("balanceOf owner", async () => {
       expect(await nft.balanceOf(owner.address)).to.equal(0);
     });
 
+    it("balanceOf user1", async () => {
+      expect(await nft.balanceOf(user1.address)).to.equal(1);
+    });
+
+    it("balanceOf user2", async () => {
+      expect(await nft.balanceOf(user2.address)).to.equal(0);
+    });
+
+  });
+
+  describe("add member with wrong answer", () => {
+
+    it("addMember", async () => {
+      await expect(manager.connect(user2).addMember(nft.address, checker.address, user2.address)).to.be.revertedWith("Answer is wrong");
+    });
+
+    it("balanceOf owner", async () => {
+      expect(await nft.balanceOf(owner.address)).to.equal(0);
+    });
+
+    it("balanceOf user1", async () => {
+      expect(await nft.balanceOf(user1.address)).to.equal(1);
+    });
+
+    it("balanceOf user2", async () => {
+      expect(await nft.balanceOf(user2.address)).to.equal(0);
+    });
+
   });
 
 });
-
 
 describe("Checker.sol", async function () {
 
@@ -200,15 +235,16 @@ describe("Checker.sol", async function () {
 
   });
 
-  describe("check wrong answers", () => {
+  describe("check answers", () => {
 
     it("collect answers", async () => {
-      await expect(checker.connect(user2).checkAnswers());
+      expect(await checker.checkAnswers(user1.address)).to.equal(true);
     });
 
     it("wrong answers", async () => {
-      await expect(checker.connect(user1).checkAnswers()).to.be.revertedWith("Answer is wrong");
+      expect(await checker.checkAnswers(user2.address)).to.equal(false);
     });
 
   });
+
 });

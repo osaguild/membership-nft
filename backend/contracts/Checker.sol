@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "hardhat/console.sol";
 
 contract Checker {
     using Counters for Counters.Counter;
@@ -113,15 +114,20 @@ contract Checker {
 
     /*
      * @dev Check answers is collected
+     * @return bool isCollect - The result of check
      */
-    function checkAnswers() external view {
-        for (uint256 i = 0; i < _answers[msg.sender].ids.length; i++) {
-            require(
-                _questions[_answers[msg.sender].ids[i]].answer ==
-                    _answers[msg.sender].answers[i],
-                "Answer is wrong"
-            );
+    function checkAnswers(address target)
+        external
+        view
+        returns (bool isCollect)
+    {
+        for (uint256 i = 0; i < _answers[target].ids.length; i++) {
+            if (
+                _questions[_answers[target].ids[i]].answer !=
+                _answers[target].answers[i]
+            ) return false;
         }
+        return true;
     }
 
     event QuestionAdded(address sender, uint256 id);
