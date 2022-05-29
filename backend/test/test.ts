@@ -191,13 +191,25 @@ describe("Checker.sol", async function () {
     });
 
     it("collect answers", async () => {
-      await expect(checker.registAnswers([1, 2], [true, false])).to.emit(checker, "AnswerAdded").withArgs(owner.address);
+      await expect(checker.connect(user1).registAnswers([1, 2], [true, false])).to.emit(checker, "AnswerAdded").withArgs(user1.address);
     });
 
     it("wrong answers", async () => {
-      await expect(checker.registAnswers([1, 2], [true, true])).to.emit(checker, "AnswerAdded").withArgs(owner.address);
+      await expect(checker.connect(user2).registAnswers([1, 2], [true, true])).to.emit(checker, "AnswerAdded").withArgs(user2.address);
     });
 
+  });
+
+  describe("check answers", () => {
+    
+    it("collect answers", async () => {
+      await expect(checker.connect(user1).checkAnswers()).to.emit(checker, "CorrectAnswer").withArgs(user1.address);
+    });
+    
+    it("wrong answers", async () => {
+      await expect(checker.connect(user2).checkAnswers()).to.emit(checker, "WrongAnswer").withArgs(user2.address);
+    });
+    
   });
 
 });
