@@ -7,26 +7,22 @@ import { useState, useEffect } from "react";
 import { getQuestions } from "../lib/web3";
 
 export default function Home() {
+  type Question = { id: number, text: string, answer: boolean };
   const [account, setAccount] = useState(undefined);
   const [isLoading, setLoading] = useState(true);
-  const [questions, setQuestions] = useState({
-    q1Question: "",
-    q2Question: "",
-  });
-  const [answers, setAnswers] = useState({
-    q1Answer: false,
-    q2Answer: false,
-  });
+  const [questions, setQuestions] = useState<Question[]>([]);
+
   useEffect(() => {
     getQuestions().then(res => {
-      if (res[0] === "success") {
-        setQuestions({
-          q1Question: res[1][0],
-          q2Question: res[1][1],
-        });
+      if (res[0] === "failed") { return; };
+      const _questions: Question[] = [];
+      for (let i = 0; i < res[1].length; i++) {
+        _questions.push({ id: res[1][i].id, text: res[1][i].text, answer: false });
       }
-      setLoading(false);
+      setQuestions(_questions);
+      console.log("questions", _questions);
     });
+    setLoading(false);
   }, [])
 
   if (isLoading) {
@@ -36,10 +32,10 @@ export default function Home() {
       <div>
         <Wallet account={account} setAccount={setAccount} />
         <hr />
-        <Question questions={questions} answers={answers} setAnswers={setAnswers} />
-        <Answer answers={answers} setLoading={setLoading} />
+        <Question questions={questions} setQuestions={setQuestions} />
+        <Answer questions={questions} setLoading={setLoading} />
         <hr />
-        <Join account={account} answers={answers} setLoading={setLoading} />
+        <Join account={account} setLoading={setLoading} />
       </div>
     )
   }

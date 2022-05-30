@@ -3,7 +3,6 @@ import { checkTransaction } from "../lib/etherScan";
 import Button from "@mui/material/Button";
 
 export default function Join(props: any) {
-  const { q1Answer, q2Answer } = props.answers;
 
   const mint = async () => {
     const success = () => {

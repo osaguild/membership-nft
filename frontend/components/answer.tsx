@@ -3,8 +3,6 @@ import { checkTransaction } from "../lib/etherScan";
 import Button from "@mui/material/Button";
 
 export default function Answer(props: any) {
-  const { q1Answer, q2Answer } = props.answers;
-
   const regist = async () => {
     const success = () => {
       props.setLoading(false);
@@ -16,7 +14,14 @@ export default function Answer(props: any) {
     }
 
     props.setLoading(true);
-    const [registAnswersResult, registAnswersData]: [string, any] = await registAnswers([1, 2], [q1Answer, q2Answer]);
+    const ids: number[] = [];
+    const answers: boolean[] = [];
+    for (let i = 0; i < props.questions.length; i++) {
+      ids.push(props.questions[i].id);
+      answers.push(props.questions[i].answer);
+    }
+    console.log(ids, answers);
+    const [registAnswersResult, registAnswersData]: [string, any] = await registAnswers(ids, answers);
     if (registAnswersResult === "failed") { return failed(registAnswersData) };
     const checkRes = await checkTransaction(registAnswersData.hash);
     if (checkRes === "failed") { return failed("Check transaction is failed") };

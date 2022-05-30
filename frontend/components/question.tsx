@@ -1,25 +1,23 @@
 import { Checkbox } from "@mui/material";
 
 export default function Question(props: any) {
-  const { q1Question, q2Question } = props.questions;
-  const { q1Answer, q2Answer } = props.answers;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setAnswers({
-      ...props.answers,
-      [event.target.name]: event.target.checked,
-    });
+    const questions = [...props.questions];
+    for (let i = 0; i < questions.length; i++) {
+      if (questions[i].id === Number(event.target.name)) {
+        questions[i].answer = event.target.checked;
+      }
+    }
+    props.setQuestions(questions);
   };
 
-  return (
-    <div>
-      <p>
-        <Checkbox checked={q1Answer} onChange={handleChange} name="q1Answer" />
-        {q1Question}
-      </p>
-      <p>
-        <Checkbox checked={q2Answer} onChange={handleChange} name="q2Answer" />
-        {q2Question}
-      </p>
-    </div>
-  );
+  const dom = () => {
+    const list = [];
+    for (let i = 0; i < props.questions.length; i++) {
+      list.push(<p key={props.questions[i].id}><Checkbox checked={props.questions[i].answer} onChange={handleChange} name={props.questions[i].id.toString()} />{props.questions[i].text}</p>);
+    }
+    return list;
+  }
+
+  return props.questions.length === 0 ? <div>No questions</div> : <div>{dom()}</div>;
 }
