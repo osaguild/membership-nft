@@ -60,7 +60,7 @@ describe("Manager.sol", async function () {
 
     // deploy Checker
     const Checker = await ethers.getContractFactory("Checker");
-    checker = await Checker.deploy();
+    checker = await Checker.deploy(manager.address);
 
     // set question and answers
     await checker.setQuestion("test1", true);
@@ -118,6 +118,7 @@ describe("Checker.sol", async function () {
   let owner: any;
   let user1: any;
   let user2: any;
+  let manager: any;
   let checker: any;
   const text1 = "Treat everyone with respect. Absolutely no harassment, witch hunting, sexism, racism, or hate speech will be tolerated.";
   const text2 = "No spam or self-promotion (server invites, advertisements, etc) without permission from an admin. This includes DMing fellow members.";
@@ -129,9 +130,13 @@ describe("Checker.sol", async function () {
     // accounts
     [owner, user1, user2] = await ethers.getSigners();
 
+    // deploy Manager
+    const Manager = await ethers.getContractFactory("Manager");
+    manager = await Manager.deploy();
+
     // deploy Checker
     const Checker = await ethers.getContractFactory("Checker");
-    checker = await Checker.deploy();
+    checker = await Checker.deploy(manager.address);
 
   });
 
@@ -237,12 +242,8 @@ describe("Checker.sol", async function () {
 
   describe("check answers", () => {
 
-    it("collect answers", async () => {
-      expect(await checker.checkAnswers(user1.address)).to.equal(true);
-    });
-
-    it("wrong answers", async () => {
-      expect(await checker.checkAnswers(user2.address)).to.equal(false);
+    it("call from onwer", async () => {
+      await expect(checker.connect(owner).checkAnswers(user1.address)).to.be.revertedWith("Only manager can call this function");
     });
 
   });

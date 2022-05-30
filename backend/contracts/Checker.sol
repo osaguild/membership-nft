@@ -19,6 +19,52 @@ contract Checker {
         bool[] answers;
     }
     mapping(address => Answer) private _answers;
+    address private _manager;
+
+    constructor(address manager_) {
+        _manager = manager_;
+    }
+
+    /*
+     * @dev Only manager can call this function.
+     */
+    modifier onlyManager() {
+        require(msg.sender == _manager, "Only manager can call this function");
+        _;
+    }
+
+    /*
+     * @dev Validate answer modifier
+     * @param uint256[] ids - The id of the question to check
+     * @param bool[] answers - The answer of the question
+     */
+    modifier validateAnswers(uint256[] memory ids, bool[] memory answers) {
+        // check1: Format check
+        require(
+            ids.length != 0 && ids.length == answers.length,
+            "Format check error"
+        );
+
+        // check2: Answer check
+        for (uint256 i = 0; i < ids.length; i++) {
+            require(_questions[ids[i]].isActive, "Answer check error");
+        }
+
+        // check3: Active answer check
+        for (uint256 i = 1; i <= _totalCount.current(); i++) {
+            if (_questions[i].isActive) {
+                bool answered = false;
+                for (uint256 j = 0; j < ids.length; j++) {
+                    if (i == ids[j]) {
+                        answered = true;
+                        break;
+                    }
+                }
+                require(answered, "Active answer check error");
+            }
+        }
+        _;
+    }
 
     /*
      * @dev Set question text and answer
@@ -58,51 +104,14 @@ contract Checker {
     }
 
     /*
-     * @dev Check answers of question
-     * @param uint256[] ids - The id of the question to check
-     * @param bool[] answers - The answer of the question
-     */
-    function validateAnswers(uint256[] memory ids, bool[] memory answers)
-        internal
-        view
-    {
-        // check1: Format check
-        require(
-            ids.length != 0 && ids.length == answers.length,
-            "Format check error"
-        );
-
-        // check2: Answer check
-        for (uint256 i = 0; i < ids.length; i++) {
-            require(_questions[ids[i]].isActive, "Answer check error");
-        }
-
-        // check3: Active answer check
-        for (uint256 i = 1; i <= _totalCount.current(); i++) {
-            if (_questions[i].isActive) {
-                bool answered = false;
-                for (uint256 j = 0; j < ids.length; j++) {
-                    if (i == ids[j]) {
-                        answered = true;
-                        break;
-                    }
-                }
-                require(answered, "Active answer check error");
-            }
-        }
-    }
-
-    /*
      * @dev Set answer of question
      * @param uint256[] ids - The id of the question to set answer
      * @param bool[] answers - The answer of the question
      */
     function registAnswers(uint256[] memory ids, bool[] memory answers)
         external
+        validateAnswers(ids, answers)
     {
-        // validation
-        validateAnswers(ids, answers);
-
         // regist answers
         _answers[msg.sender].ids = ids;
         _answers[msg.sender].answers = answers;
@@ -117,6 +126,7 @@ contract Checker {
     function checkAnswers(address target)
         external
         view
+        onlyManager
         returns (bool isCollect)
     {
         for (uint256 i = 0; i < _answers[target].ids.length; i++) {
