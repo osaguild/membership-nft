@@ -4,7 +4,7 @@ import Question from "../components/question";
 import Answer from "../components/answer";
 import ReactLoading from "react-loading";
 import { useState, useEffect } from "react";
-import { getQuestion } from "../lib/web3";
+import { getQuestions } from "../lib/web3";
 
 export default function Home() {
   const [account, setAccount] = useState(undefined);
@@ -17,17 +17,16 @@ export default function Home() {
     q1Answer: false,
     q2Answer: false,
   });
-  const getQuestions = async () => {
-    const [q1Result, q1Text] = await getQuestion(1);
-    const [q2Result, q2Text] = await getQuestion(2);
-    if (q1Result === "failed" || q2Result === "failed") { return };
-    setQuestions({
-      q1Question: q1Text,
-      q2Question: q2Text,
-    });
-  }
   useEffect(() => {
-    getQuestions().then(() => { setLoading(false) });
+    getQuestions().then(res => {
+      if (res[0] === "success") {
+        setQuestions({
+          q1Question: res[1][0],
+          q2Question: res[1][1],
+        });
+      }
+      setLoading(false);
+    });
   }, [])
 
   if (isLoading) {

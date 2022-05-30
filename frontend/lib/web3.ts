@@ -31,16 +31,20 @@ export async function addMember(account: string): Promise<[string, any]> {
   };
 };
 
-export async function getQuestion(id: number): Promise<[string, string]> {
+export async function getQuestions(): Promise<[string, string[]]> {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, provider);
-    const question = await checker.getQuestion(id);
-    console.log("question", question);
-    return ["success", question];
+    const countOfQuestions = await checker.getCountOfQuestions();
+    const questions = [];
+    for (let i = 1; i <= countOfQuestions.toNumber(); i++) {
+      questions.push(await checker.getQuestion(i));
+    }
+    console.log("questions", questions);
+    return ["success", questions];
   } catch (error) {
     console.log("getQuestion is failed", error);
-    return ["failed", "getQuestion is failed. please check console.log"];
+    return ["failed", []];
   };
 };
 
