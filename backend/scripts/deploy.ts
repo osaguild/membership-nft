@@ -12,7 +12,7 @@ async function main() {
   const manager = await Manager.deploy();
   console.log("Manager address:", manager.address);
   const Checker = await ethers.getContractFactory("Checker");
-  const checker = await Checker.deploy();
+  const checker = await Checker.deploy(manager.address);
   console.log("Checker address:", checker.address);
   // set questions
   await checker.setQuestion("Treat everyone with respect. Absolutely no harassment, witch hunting, sexism, racism, or hate speech will be tolerated.", true);

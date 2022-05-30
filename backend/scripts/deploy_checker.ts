@@ -1,12 +1,13 @@
 import { ethers } from "hardhat";
 
 async function main() {
+  const MANAGER_CONTRACT_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
   // deploy
   const [deployer] = await ethers.getSigners();
   console.log("deploying contract with the account:", deployer.address);
   console.log("account balance:", (await deployer.getBalance().toString()));
   const Checker = await ethers.getContractFactory("Checker");
-  const checker = await Checker.deploy();
+  const checker = await Checker.deploy(MANAGER_CONTRACT_ADDRESS);
   console.log("Checker address:", checker.address);
   // set questions
   await checker.setQuestion("Treat everyone with respect. Absolutely no harassment, witch hunting, sexism, racism, or hate speech will be tolerated.", true);
