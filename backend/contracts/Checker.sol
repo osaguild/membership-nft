@@ -104,10 +104,8 @@ contract Checker {
         validateAnswers(ids, answers);
 
         // regist answers
-        for (uint256 i = 0; i < ids.length; i++) {
-            _answers[msg.sender].ids.push(ids[i]);
-            _answers[msg.sender].answers.push(answers[i]);
-        }
+        _answers[msg.sender].ids = ids;
+        _answers[msg.sender].answers = answers;
 
         emit AnswerAdded(msg.sender);
     }

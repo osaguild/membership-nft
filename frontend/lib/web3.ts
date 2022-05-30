@@ -18,10 +18,11 @@ export async function connectWallet(): Promise<[string, any]> {
 
 export async function addMember(account: string): Promise<[string, any]> {
   try {
+    console.log("account", account);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS, signer);
-    const tx = await manager.addMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, account);
+    const tx = await manager.addMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, account);
     console.log("transaction", tx);
     return ["success", tx];
   } catch (error: any) {
@@ -43,16 +44,16 @@ export async function getQuestion(id: number): Promise<[string, string]> {
   };
 };
 
-export async function checkAnswer(id: number, answer: boolean): Promise<string> {
+export async function registAnswers(id: number[], answer: boolean[]): Promise<[string, any]> {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, signer);
-    const tx = await checker.checkAnswer(id, answer);
-    console.log(`check answer id: ${id}`, tx);
-    return (tx === true ? "success" : "failed");
+    const tx = await checker.registAnswers(id, answer);
+    console.log(`transaction`, tx);
+    return ["success", tx];
   } catch (error) {
     console.log("checkAnswer is failed", error);
-    return "failed";
+    return ["failed", "checkAnswer is failed. please check console.log"];
   };
 };
