@@ -32,6 +32,7 @@ npx hardhat help
 - `npx hardhat compile`
 - `npx hardhat test`
 - `npx hardhat node`
+- `npx hardhat typechain`
 - `npx hardhat run scripts/deploy.ts --network localhost`
 - `npx hardhat run scripts/deploy.ts --network rinkeby`
 - `npx hardhat run scripts/deploy_manager.ts --network rinkeby`

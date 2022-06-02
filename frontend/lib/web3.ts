@@ -88,3 +88,14 @@ export async function checkSignature(message: string, signature: string): Promis
     return "failed";
   }
 }
+
+export async function isMember(address: string): Promise<string> {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS, provider);
+    return (await manager.isMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, address)) ? "success" : "failed";
+  } catch (error) {
+    console.log("isMember is failed", error);
+    return "failed";
+  };
+}

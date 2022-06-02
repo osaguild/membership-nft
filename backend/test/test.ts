@@ -111,6 +111,41 @@ describe("Manager.sol", async function () {
 
   });
 
+  describe("check member", () => {
+
+    before(async function () {
+      await expect(manager.connect(user1).addMember(nft.address, checker.address, user1.address)).to.emit(nft, "Transfer").withArgs("0x0000000000000000000000000000000000000000", user1.address, 2);
+      await expect(manager.connect(user1).addMember(nft.address, checker.address, user2.address)).to.emit(nft, "Transfer").withArgs("0x0000000000000000000000000000000000000000", user2.address, 3);
+    });
+
+    it("balanceOf owner", async () => {
+      expect(await nft.balanceOf(owner.address)).to.equal(0);
+    });
+
+    it("balanceOf user1", async () => {
+      expect(await nft.balanceOf(user1.address)).to.equal(2);
+    });
+
+    it("balanceOf user2", async () => {
+      expect(await nft.balanceOf(user2.address)).to.equal(1);
+    });
+
+    it("isMember owner", async () => {
+      expect(await manager.isMember(nft.address, owner.address)).to.equal(false);
+    });
+
+    it("isMember user1", async () => {
+      expect(await manager.isMember(nft.address, user1.address)).to.equal(true);
+    });
+
+    it("isMember user2", async () => {
+      expect(await manager.isMember(nft.address, user2.address)).to.equal(true);
+    });
+
+  });
+
+
+
 });
 
 describe("Checker.sol", async function () {

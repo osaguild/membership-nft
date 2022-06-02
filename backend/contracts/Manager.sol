@@ -18,4 +18,12 @@ contract Manager {
         require(Checker(_checker).checkAnswers(msg.sender), "Answer is wrong");
         NFT(_nft).mint(_member, _uri);
     }
+
+    function isMember(address _nft, address _member)
+        public
+        view
+        returns (bool result)
+    {
+        return (NFT(_nft).balanceOf(_member) > 0) ? true : false;
+    }
 }
