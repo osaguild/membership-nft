@@ -16,17 +16,10 @@ export default function Login(props: any) {
     }
 
     props.setLoading(true);
-    const message = "hello im osaguild";
-    const [signResult, signature]: [string, string] = await sign(message);
-    if (signResult === "failed") { return failed("Sign is failed") };
-    const checkSignResult: string = await checkSignature(message, signature);
-    if (checkSignResult === "failed") { return failed("Signature is wrong") }
-    const isMemberResult: string = await isMember(props.account);
-    if (isMemberResult === "failed") { return failed("You are not a member") }
     success();
     router.push({
       pathname: "/member",
-      query: { name: "osaguild" }
+      query: { account: props.account }
     });
   };
 
