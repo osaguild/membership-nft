@@ -61,3 +61,30 @@ export async function registAnswers(id: number[], answer: boolean[]): Promise<[s
     return ["failed", "checkAnswer is failed. please check console.log"];
   };
 };
+
+export async function sign(message: string): Promise<[string, string]> {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const signature: string = await signer.signMessage(message);
+    return ["success", signature];
+  } catch (error) {
+    console.log("sign is failed", error);
+    return ["failed", "sign is failed. please check console.log"];
+  }
+}
+
+export async function checkSignature(message: string, signature: string): Promise<string> {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const verifyAddress = ethers.utils.verifyMessage(message, signature)
+    console.log(address);
+    console.log(verifyAddress);
+    return (address == verifyAddress) ? "success" : "failed";
+  } catch (error) {
+    console.log("checkSign is failed", error);
+    return "failed";
+  }
+}

@@ -2,6 +2,7 @@ import Wallet from "../components/wallet";
 import Join from "../components/join";
 import Question from "../components/question";
 import Answer from "../components/answer";
+import Login from "../components/login";
 import ReactLoading from "react-loading";
 import { useState, useEffect } from "react";
 import { getQuestions } from "../lib/web3";
@@ -36,6 +37,8 @@ export default function Home() {
         <Answer questions={questions} setLoading={setLoading} />
         <hr />
         <Join account={account} setLoading={setLoading} />
+        <hr />
+        <Login setLoading={setLoading} />
       </div>
     )
   }
