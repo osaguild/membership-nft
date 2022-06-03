@@ -1,5 +1,5 @@
-import Button from "@mui/material/Button";
-import Link from "next/link";
+import Button from "@mui/material/Button"
+import Link from "next/link"
 
 export default function Login() {
   return (
@@ -8,5 +8,5 @@ export default function Login() {
         Login
       </Button>
     </Link>
-  );
+  )
 }

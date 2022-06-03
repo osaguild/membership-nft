@@ -1,23 +1,20 @@
-import { connectWallet } from "../lib/web3";
-import Button from "@mui/material/Button";
+import { connectWallet } from "../lib/web3"
+import Button from "@mui/material/Button"
 
 export default function Wallet(props: any) {
 
   const connect = async () => {
-    const [result, account] = await connectWallet();
-    if (result === "success") {
-      props.setAccount(account);
-    }
-    const message = result === "success" ? "Success to connect." : "Failed to connect. Please check console.log.";
-    alert(message);
-  };
+    const account = await connectWallet()
+    if (account === undefined) return
+    else props.setAccount(account)
+  }
 
   if (props.account === undefined) {
     return (
       <Button variant="contained" onClick={connect}>
         Connect Wallet
       </Button>
-    );
+    )
   } else {
     return (
       <div>
@@ -26,6 +23,6 @@ export default function Wallet(props: any) {
         </Button>
         {props.account}
       </div>
-    );
-  };
+    )
+  }
 }
