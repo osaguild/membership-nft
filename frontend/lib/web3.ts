@@ -62,40 +62,38 @@ export async function registAnswers(id: number[], answer: boolean[]): Promise<[s
   };
 };
 
-export async function sign(message: string): Promise<[string, string]> {
+export async function sign(message: string): Promise<string> {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const signature = await signer.signMessage(message);
+  return signature;
+}
+
+export async function checkSignature(message: string, signature: string): Promise<boolean> {
   try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const signature: string = await signer.signMessage(message);
-    return ["success", signature];
+    const signerAddress = await getSignerAddress();
+    const verifyAddress = ethers.utils.verifyMessage(message, signature);
+    return (signerAddress == verifyAddress) ? true : false;
   } catch (error) {
-    console.log("sign is failed", error);
-    return ["failed", "sign is failed. please check console.log"];
+    console.log("Exception is occuerd in web3.checkSignature", error);
+    return false;
   }
 }
 
-export async function checkSignature(message: string, signature: string): Promise<string> {
-  try {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const verifyAddress = ethers.utils.verifyMessage(message, signature)
-    console.log(address);
-    console.log(verifyAddress);
-    return (address == verifyAddress) ? "success" : "failed";
-  } catch (error) {
-    console.log("checkSign is failed", error);
-    return "failed";
-  }
-}
-
-export async function isMember(address: string): Promise<string> {
+export async function isMember(address: string): Promise<boolean> {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS, provider);
-    return (await manager.isMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, address)) ? "success" : "failed";
+    return (await manager.isMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, address)) ? true : false;
   } catch (error) {
     console.log("isMember is failed", error);
-    return "failed";
+    return false;
   };
+}
+
+export async function getSignerAddress(): Promise<string> {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const address = await signer.getAddress();
+  return address;
 }

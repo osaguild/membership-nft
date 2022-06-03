@@ -1,22 +1,37 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { sign, checkSignature, isMember } from "../../lib/web3";
+import { sign, getSignerAddress } from "../../lib/web3";
+import { getKeyword, authN, authR } from "../../lib/auth";
 
 export default function Member() {
   const router = useRouter();
+  const [account, setAccount] = useState(undefined);
+  const [token, setToken] = useState(undefined);
 
-  const wk = async () => {
-    const message = "hello im osaguild";
-    const [signResult, signature]: [string, string] = await sign(message);
-    if (signResult === "failed") { console.log("Sign is failed") };
-    const checkSignResult: string = await checkSignature(message, signature);
-    if (checkSignResult === "failed") { console.log("Signature is wrong") }
-    const isMemberResult: string = await isMember(router.query.account);
-    if (isMemberResult === "failed") { console.log("You are not a member") }
+  const success = (address: string, token: string) => {
+    console.log("success", address, token);
+    setAccount(address);
+    setToken(token);
+  };
+  const failed = () => {
+    console.log("failed");
+    router.push("/");
+  }
+
+  const auth = async () => {
+    const signature = await sign(getKeyword());
+    //const address = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+    const address = await getSignerAddress();
+    const token = await authN(signature, address);
+    if (typeof token === 'string' && await authR(token, "/member")) {
+      success(address, token)
+    } else {
+      failed();
+    }
   }
 
   useEffect(() => {
-    wk();
+    auth();
   }, [])
 
   return (

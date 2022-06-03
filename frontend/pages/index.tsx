@@ -38,7 +38,7 @@ export default function Home() {
         <hr />
         <Join account={account} setLoading={setLoading} />
         <hr />
-        <Login account={account} setLoading={setLoading} />
+        <Login/>
       </div>
     )
   }
