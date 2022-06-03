@@ -13,15 +13,15 @@ export default function Home() {
   const [questions, setQuestions] = useState<Question[]>([])
 
   const init = async () => {
+    setLoading(true)
     const _qeustions = await getQuestions()
     if (_qeustions === undefined) return
     else setQuestions(_qeustions)
+    setLoading(false)
   }
 
   useEffect(() => {
-    setLoading(true)
     init()
-    setLoading(false)
   }, [])
 
   if (isLoading) {
