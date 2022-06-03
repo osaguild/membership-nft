@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 import { getQuestions } from "../lib/web3"
 
 export default function Home() {
-  const [account, setAccount] = useState(undefined)
+  const [account, setAccount] = useState<string|undefined>(undefined)
   const [isLoading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<Question[]>([])
 

@@ -28,7 +28,7 @@ export async function getQuestions(): Promise<Question[] | undefined> {
   try {
     const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, getProvider())
     const countOfQuestions = await checker.getCountOfQuestions()
-    if (typeof countOfQuestions === undefined) return undefined
+    if (countOfQuestions === undefined) return undefined
     const questions: Question[] = []
     for (let i = 1; i <= countOfQuestions.toNumber(); i++) {
       questions.push({ id: i, text: await checker.getQuestion(i), answer: false })
@@ -51,9 +51,14 @@ export async function registAnswers(question: Question[]): Promise<ethers.Contra
   }
 }
 
-export async function sign(message: string): Promise<string> {
-  const signer = getSigner()
-  return await signer.signMessage(message)
+export async function sign(message: string): Promise<string | undefined> {
+  try {
+    const signer = getSigner()
+    return await signer.signMessage(message)
+  } catch (error) {
+    console.log("web3.sign() is failed", error)
+    return undefined
+  }
 }
 
 export async function checkSignature(message: string, signature: string): Promise<boolean> {
@@ -77,10 +82,14 @@ export async function isMember(address: string): Promise<boolean> {
   }
 }
 
-export async function getSignerAddress(): Promise<string> {
-  const signer = getSigner()
-  const address = await signer.getAddress()
-  return address
+export async function getSignerAddress(): Promise<string | undefined> {
+  try {
+    const signer = getSigner()
+    return await signer.getAddress()
+  } catch (error) {
+    console.log("web3.getSignerAddress() is failed", error)
+    return undefined
+  }
 }
 
 function getProvider(): ethers.providers.Web3Provider {
