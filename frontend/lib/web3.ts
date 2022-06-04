@@ -16,8 +16,8 @@ export async function connectWallet(): Promise<string | undefined> {
 
 export async function addMember(account: string): Promise<ethers.ContractTransaction | undefined> {
   try {
-    const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS, getSigner())
-    return await manager.addMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, account)
+    const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS as string, getSigner())
+    return await manager.addMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string, process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS as string, account)
   } catch (error: any) {
     console.log("web3.addMember() is failed", error)
     return undefined
@@ -26,7 +26,7 @@ export async function addMember(account: string): Promise<ethers.ContractTransac
 
 export async function getQuestions(): Promise<Question[] | undefined> {
   try {
-    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, getProvider())
+    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS as string, getProvider())
     const countOfQuestions = await checker.getCountOfQuestions()
     if (countOfQuestions === undefined) return undefined
     const questions: Question[] = []
@@ -42,7 +42,7 @@ export async function getQuestions(): Promise<Question[] | undefined> {
 
 export async function registAnswers(question: Question[]): Promise<ethers.ContractTransaction | undefined> {
   try {
-    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS, getSigner())
+    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS as string, getSigner())
     const [ids, , answers] = questionsToArray(question)
     return await checker.registAnswers(ids, answers)
   } catch (error) {
@@ -74,8 +74,8 @@ export async function checkSignature(message: string, signature: string): Promis
 
 export async function isMember(address: string): Promise<boolean> {
   try {
-    const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS, getProvider())
-    return (await manager.isMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS, address)) ? true : false
+    const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS as string, getProvider())
+    return (await manager.isMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string, address)) ? true : false
   } catch (error) {
     console.log("web3.isMember() is failed", error)
     return false

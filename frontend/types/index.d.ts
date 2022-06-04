@@ -5,3 +5,6 @@ type Question = {
   text: string
   answer: boolean
 }
+interface Window {
+  ethereum: any;
+}
