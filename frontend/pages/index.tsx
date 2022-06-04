@@ -5,7 +5,7 @@ import Answer from "../components/answer"
 import Login from "../components/login"
 import ReactLoading from "react-loading"
 import { useState, useEffect } from "react"
-import { getQuestions } from "../lib/web3"
+import { getQuestions, getSignerAddress } from "../lib/web3"
 
 export default function Home() {
   const [account, setAccount] = useState<string|undefined>(undefined)
@@ -14,6 +14,7 @@ export default function Home() {
 
   const init = async () => {
     setLoading(true)
+    setAccount(await getSignerAddress())
     const _qeustions = await getQuestions()
     if (_qeustions === undefined) return
     else setQuestions(_qeustions)
