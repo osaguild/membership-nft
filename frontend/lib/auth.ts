@@ -1,4 +1,4 @@
-import { checkSignature, isMember } from './web3';
+import { checkSignature, isMemberAccount } from './web3';
 
 const KEYWORD = "hello osaguild"
 
@@ -9,7 +9,7 @@ export function getKeyword(): string {
 export async function authN(signature: string, address: string): Promise<Token | undefined> {
   try {
     if (!await checkSignature(KEYWORD, signature)) { return undefined }
-    return (await isMember(address) === true) ? "MEMBER_TOKEN" : "NON_MEMBER_TOKEN"  
+    return (await isMemberAccount(address) === true) ? "MEMBER_TOKEN" : "NON_MEMBER_TOKEN"  
   } catch (error) {
     console.log("auth.authN() is failed", error)
     return undefined;

@@ -72,12 +72,22 @@ export async function checkSignature(message: string, signature: string): Promis
   }
 }
 
-export async function isMember(address: string): Promise<boolean> {
+export async function isMemberAccount(address: string): Promise<boolean> {
   try {
     const manager = Manager__factory.connect(process.env.NEXT_PUBLIC_MANAGER_CONTRACT_ADDRESS as string, getProvider())
     return (await manager.isMember(process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string, address)) ? true : false
   } catch (error) {
-    console.log("web3.isMember() is failed", error)
+    console.log("web3.isMemberAccount() is failed", error)
+    return false
+  }
+}
+
+export async function isAnsweredAccount(address: string): Promise<boolean> {
+  try {
+    const checker = Checker__factory.connect(process.env.NEXT_PUBLIC_CHECKER_CONTRACT_ADDRESS as string, getProvider())
+    return (await checker.isAnswered(address)) ? true : false
+  } catch (error) {
+    console.log("web3.isAnsweredAccount() is failed", error)
     return false
   }
 }

@@ -13,7 +13,7 @@ export default function Question(props: any) {
   }
 
   const dom = () => {
-    const list = [];
+    const list = []
     for (let i = 0; i < props.questions.length; i++) {
       list.push(
         <p key={props.questions[i].id}>
@@ -25,7 +25,7 @@ export default function Question(props: any) {
     return list
   }
 
-  return props.questions === undefined
+  return dom().length === 0
     ? <div>No Questions</div>
     : <div>{dom()}</div>
 }
