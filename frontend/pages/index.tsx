@@ -1,9 +1,7 @@
-import Wallet from "../components/wallet"
-import Account from "../components/accout"
+import Header from "../components/header"
 import Join from "../components/join"
 import Question from "../components/question"
 import Answer from "../components/answer"
-import Login from "../components/login"
 import ReactLoading from "react-loading"
 import { useState, useEffect } from "react"
 import { getQuestions, getSignerAddress, getNetwork, isAnsweredAccount, isMemberAccount } from "../lib/web3"
@@ -43,15 +41,11 @@ export default function Home() {
   } else {
     return (
       <div>
-        <Wallet account={account} network={network} />
-        <Account account={account} isAnswered={isAnswered} isMember={isMember}/>
-        <hr />
+        <Header account={account} network={network} isAnswered={isAnswered} isMember={isMember} />
         <Question questions={questions} setQuestions={setQuestions} />
         <Answer questions={questions} setLoading={setLoading} />
         <hr />
         <Join account={account} setLoading={setLoading} />
-        <hr />
-        <Login />
       </div>
     )
   }

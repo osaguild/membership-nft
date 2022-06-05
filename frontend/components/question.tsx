@@ -13,7 +13,8 @@ export default function Question(props: any) {
   }
 
   const dom = () => {
-    const list = []
+    const list: JSX.Element[] = []
+    if (props.questions === undefined) return list
     for (let i = 0; i < props.questions.length; i++) {
       list.push(
         <p key={props.questions[i].id}>
