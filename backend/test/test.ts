@@ -245,6 +245,12 @@ describe("Checker.sol", async function () {
 
   describe("regist answers", () => {
 
+    before(async function () {
+      expect(await checker.isAnswered(owner.address)).to.equal(false)
+      expect(await checker.isAnswered(user1.address)).to.equal(false)
+      expect(await checker.isAnswered(user2.address)).to.equal(false)
+    })
+
     it("empty ids", async () => {
       await expect(checker.registAnswers([], [true, false])).to.be.revertedWith("Format check error");
     });
@@ -277,7 +283,19 @@ describe("Checker.sol", async function () {
 
   describe("check answers", () => {
 
-    it("call from onwer", async () => {
+    it("is owner answered", async () => {
+      expect(await checker.isAnswered(owner.address)).to.equal(false)
+    })
+
+    it("is user1 answered", async () => {
+      expect(await checker.isAnswered(user1.address)).to.equal(true)
+    })
+
+    it("is user2 answered", async () => {
+      expect(await checker.isAnswered(user2.address)).to.equal(true)
+    })
+
+    it("can't call checkAnswers from onwer", async () => {
       await expect(checker.connect(owner).checkAnswers(user1.address)).to.be.revertedWith("Only manager can call this function");
     });
 

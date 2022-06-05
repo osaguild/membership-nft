@@ -84,9 +84,9 @@ contract Checker {
     /*
      * @dev Get active question
      * @param uint256 id - The id of the question to check
-     * @return string data - The text of the question if the question is active, the reason of not active otherwise
+     * @return string - The text of the question if the question is active, the reason of not active otherwise
      */
-    function getQuestion(uint256 id) public view returns (string memory data) {
+    function getQuestion(uint256 id) public view returns (string memory) {
         require(
             _questions[id].isActive,
             "Question is not active or out of range"
@@ -96,9 +96,9 @@ contract Checker {
 
     /*
      * @dev Get count of questions
-     * @return uint256 count - The count of questions
+     * @return uint256 - The count of questions
      */
-    function getCountOfQuestions() public view returns (uint256 count) {
+    function getCountOfQuestions() public view returns (uint256) {
         uint256 _count = _totalCount.current();
         return _count;
     }
@@ -121,13 +121,14 @@ contract Checker {
 
     /*
      * @dev Check answers is collected
-     * @return bool isCollect - The result of check
+     * @param address target - The address of target user
+     * @return bool - The result of check
      */
     function checkAnswers(address target)
         external
         view
         onlyManager
-        returns (bool isCollect)
+        returns (bool)
     {
         for (uint256 i = 0; i < _answers[target].ids.length; i++) {
             if (
@@ -136,6 +137,20 @@ contract Checker {
             ) return false;
         }
         return true;
+    }
+
+    /*
+     * @dev Already answered 
+     * @param address target - The address of target user
+     * @return bool - The result of check
+     */
+    function isAnswered(address target)
+        external
+        view
+        returns (bool)
+    {
+        if (_answers[target].ids.length == 0) return false;
+        else return true;
     }
 
     event QuestionAdded(address sender, uint256 id);
