@@ -3,14 +3,14 @@ import { questionsToArray } from "./converter"
 import { Manager__factory, Checker__factory } from "../typechain-types"
 
 
-export async function connectWallet(): Promise<string | undefined> {
+export async function connectWallet(): Promise<boolean> {
   try {
-    if (!window.ethereum) return undefined
+    if (!window.ethereum) return false
     await getProvider().send("eth_requestAccounts", [])
-    return getSignerAddress()
+    return true
   } catch (error: any) {
     console.log("web3.connectWallet() is failed", error)
-    return undefined
+    return false
   }
 }
 

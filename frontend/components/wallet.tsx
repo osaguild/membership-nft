@@ -1,15 +1,14 @@
-import { connectWallet, switchNetwork, getNetwork } from "../lib/web3"
+import { connectWallet, switchNetwork } from "../lib/web3"
 import { Button, Select, MenuItem, SelectChangeEvent } from "@mui/material"
 
 export default function Wallet(props: any) {
 
   const connect = async () => {
-    const account = await connectWallet()
-    if (typeof account === "string") props.setAccount(account)
+    await connectWallet()
   }
 
   const handleChange = async (event: SelectChangeEvent<any>) => {
-    if (await switchNetwork(event.target.value)) props.setNetwork(await getNetwork())
+    await switchNetwork(event.target.value)
   }
 
   if (props.account === undefined) {

@@ -11,11 +11,10 @@ import { ethers } from "ethers"
 export default function Home() {
   const [account, setAccount] = useState<string | undefined>(undefined)
   const [network, setNetwork] = useState<ethers.providers.Network | undefined>(undefined)
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [questions, setQuestions] = useState<Question[] | undefined>(undefined)
 
   const init = async () => {
-    setLoading(true)
     setAccount(await getSignerAddress())
     setNetwork(await getNetwork())
     setQuestions(await getQuestions())
@@ -24,6 +23,14 @@ export default function Home() {
 
   useEffect(() => {
     init()
+    window.ethereum.on("accountsChanged", (accounts: any) => {
+      console.log("accountsChanged", accounts)
+      window.location.reload()
+    })  
+    window.ethereum.on("chainChanged", (chainId: any) => {
+      console.log("chainChanged", chainId)
+      window.location.reload()
+    })  
   }, [])
 
   if (isLoading) {
@@ -31,7 +38,7 @@ export default function Home() {
   } else {
     return (
       <div>
-        <Wallet account={account} network={network} setAccount={setAccount} setNetwork={setNetwork} />
+        <Wallet account={account} network={network} />
         <hr />
         <Question questions={questions} setQuestions={setQuestions} />
         <Answer questions={questions} setLoading={setLoading} />
