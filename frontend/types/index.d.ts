@@ -8,3 +8,4 @@ type Question = {
 interface Window {
   ethereum: any;
 }
+type Network = 1 | 4 | 137
