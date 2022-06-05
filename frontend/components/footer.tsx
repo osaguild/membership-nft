@@ -5,7 +5,7 @@ export default function Footer() {
     <Box bgcolor="primary.main" sx={{ p: 1 }}>
       <Container maxWidth="xl">
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="body1" display="block" gutterBottom>
+          <Typography variant="body1" display="block" style={{ color: "white" }} gutterBottom>
             @ {new Date().getFullYear()} osaguild.com
           </Typography>
         </Box>

@@ -2,7 +2,7 @@ import { registAnswers } from "../lib/web3"
 import { checkTransaction } from "../lib/etherScan"
 import Button from "@mui/material/Button"
 
-export default function Answer(props: any) {
+export default function Regist(props: any) {
 
   const regist = async () => {
 
@@ -24,7 +24,7 @@ export default function Answer(props: any) {
 
   return (
     <Button variant="contained" onClick={regist}>
-      Regist Answers
+      Regist
     </Button>
   )
 }

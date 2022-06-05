@@ -1,7 +1,5 @@
 import Header from "../components/header"
-import Join from "../components/join"
-import Question from "../components/question"
-import Answer from "../components/answer"
+import Questions from "../components/questions"
 import Footer from "../components/footer"
 import ReactLoading from "react-loading"
 import { useState, useEffect } from "react"
@@ -44,10 +42,8 @@ export default function Home() {
     return (
       <div>
         <Header account={account} network={network} isAnswered={isAnswered} isMember={isMember} />
-        <Container maxWidth="xl">
-          <Question questions={questions} setQuestions={setQuestions} />
-          <Answer questions={questions} setLoading={setLoading} />
-          <Join account={account} setLoading={setLoading} />
+        <Container sx={{ p: 5 }} maxWidth="xl">
+          <Questions account={account} questions={questions} setQuestions={setQuestions} />
         </Container>
         <Footer />
       </div>

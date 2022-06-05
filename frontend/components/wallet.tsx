@@ -19,7 +19,7 @@ export default function Wallet(props: any) {
     )
   } else {
     return (
-      <Select value={props.network.chainId} onChange={handleChange}>
+      <Select value={props.network.chainId} style={{ color: "white" }} onChange={handleChange}>
         <MenuItem value={1}>Ethereum</MenuItem>
         <MenuItem value={4}>Rinkby</MenuItem>
         <MenuItem value={137}>Matic</MenuItem>
