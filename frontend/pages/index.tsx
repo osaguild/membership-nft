@@ -2,10 +2,12 @@ import Header from "../components/header"
 import Join from "../components/join"
 import Question from "../components/question"
 import Answer from "../components/answer"
+import Footer from "../components/footer"
 import ReactLoading from "react-loading"
 import { useState, useEffect } from "react"
 import { getQuestions, getSignerAddress, getNetwork, isAnsweredAccount, isMemberAccount } from "../lib/web3"
 import { ethers } from "ethers"
+import { Container } from "@mui/material"
 
 export default function Home() {
   const [account, setAccount] = useState<string | undefined>(undefined)
@@ -42,10 +44,12 @@ export default function Home() {
     return (
       <div>
         <Header account={account} network={network} isAnswered={isAnswered} isMember={isMember} />
-        <Question questions={questions} setQuestions={setQuestions} />
-        <Answer questions={questions} setLoading={setLoading} />
-        <hr />
-        <Join account={account} setLoading={setLoading} />
+        <Container maxWidth="xl">
+          <Question questions={questions} setQuestions={setQuestions} />
+          <Answer questions={questions} setLoading={setLoading} />
+          <Join account={account} setLoading={setLoading} />
+        </Container>
+        <Footer />
       </div>
     )
   }
