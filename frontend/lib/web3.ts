@@ -92,6 +92,35 @@ export async function getSignerAddress(): Promise<string | undefined> {
   }
 }
 
+export async function getNetwork(): Promise<ethers.providers.Network | undefined> {
+  return await getProvider().getNetwork()
+}
+
+export async function switchNetwork(networkId: number): Promise<boolean> {
+  try {
+    if (networkId === 1) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x1" }]
+      })
+    } else if (networkId === 4) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x4" }]
+      })
+    } else if (networkId === 137) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x89" }]
+      })
+    }
+    return true
+  } catch (error) {
+    console.log("web3.switchNetwork() is failed", error)
+    return false
+  }
+}
+
 function getProvider(): ethers.providers.Web3Provider {
   return new ethers.providers.Web3Provider(window.ethereum)
 }

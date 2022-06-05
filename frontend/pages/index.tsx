@@ -5,19 +5,20 @@ import Answer from "../components/answer"
 import Login from "../components/login"
 import ReactLoading from "react-loading"
 import { useState, useEffect } from "react"
-import { getQuestions, getSignerAddress } from "../lib/web3"
+import { getQuestions, getSignerAddress, getNetwork } from "../lib/web3"
+import { ethers } from "ethers"
 
 export default function Home() {
-  const [account, setAccount] = useState<string|undefined>(undefined)
+  const [account, setAccount] = useState<string | undefined>(undefined)
+  const [network, setNetwork] = useState<ethers.providers.Network | undefined>(undefined)
   const [isLoading, setLoading] = useState(false)
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<Question[] | undefined>(undefined)
 
   const init = async () => {
     setLoading(true)
     setAccount(await getSignerAddress())
-    const _qeustions = await getQuestions()
-    if (_qeustions === undefined) return
-    else setQuestions(_qeustions)
+    setNetwork(await getNetwork())
+    setQuestions(await getQuestions())
     setLoading(false)
   }
 
@@ -26,11 +27,11 @@ export default function Home() {
   }, [])
 
   if (isLoading) {
-    return <ReactLoading type="bubbles" color="#99ffff" height="300px" width="300px" />;
+    return <ReactLoading type="bubbles" color="#99ffff" height="300px" width="300px" />
   } else {
     return (
       <div>
-        <Wallet account={account} setAccount={setAccount} />
+        <Wallet account={account} network={network} setAccount={setAccount} setNetwork={setNetwork} />
         <hr />
         <Question questions={questions} setQuestions={setQuestions} />
         <Answer questions={questions} setLoading={setLoading} />

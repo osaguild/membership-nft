@@ -25,7 +25,7 @@ export default function Question(props: any) {
     return list
   }
 
-  return props.questions.length === 0
-    ? <div>Loading</div>
+  return props.questions === undefined
+    ? <div>No Questions</div>
     : <div>{dom()}</div>
 }
