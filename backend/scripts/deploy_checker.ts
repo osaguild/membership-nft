@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const MANAGER_CONTRACT_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  const MANAGER_CONTRACT_ADDRESS = "0xb56C95b00fcc2FE919e9bd277B4D16af0fa65B8D";
   // deploy
   const [deployer] = await ethers.getSigners();
   console.log("deploying contract with the account:", deployer.address);
