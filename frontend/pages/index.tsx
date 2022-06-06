@@ -43,7 +43,7 @@ export default function Home() {
       <div>
         <Header account={account} network={network} isAnswered={isAnswered} isMember={isMember} />
         <Container sx={{ p: 5 }} maxWidth="xl">
-          <Questions account={account} questions={questions} setQuestions={setQuestions} />
+          <Questions account={account} questions={questions} setQuestions={setQuestions} setLoading={setLoading}/>
         </Container>
         <Footer />
       </div>
