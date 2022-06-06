@@ -3,21 +3,24 @@ import Questions from "../components/questions"
 import Footer from "../components/footer"
 import ReactLoading from "react-loading"
 import { useState, useEffect } from "react"
-import { getQuestions, getSignerAddress, getNetwork, isAnsweredAccount, isMemberAccount } from "../lib/web3"
-import { ethers } from "ethers"
+import { getQuestions, getSignerAddress, isAnsweredAccount, isMemberAccount } from "../lib/web3"
 import { Container } from "@mui/material"
+import { useProvider } from "../states/useProvider"
+import { useSigner } from "../states/useSigner"
+import { useAccount } from "../states/useAccount"
+import { useNetwork } from "../states/useNetwork"
 
 export default function Home() {
-  const [account, setAccount] = useState<string | undefined>(undefined)
-  const [network, setNetwork] = useState<ethers.providers.Network | undefined>(undefined)
+  const provider = useProvider()
+  const signer = useSigner(provider)
+  const account = useAccount(signer)
+  const network = useNetwork(provider)
   const [isAnswered, setAnswered] = useState<boolean | undefined>(undefined)
   const [isMember, setMember] = useState<boolean | undefined>(undefined)
   const [isLoading, setLoading] = useState(true)
   const [questions, setQuestions] = useState<Question[] | undefined>(undefined)
 
   const init = async () => {
-    setAccount(await getSignerAddress())
-    setNetwork(await getNetwork())
     setAnswered(await isAnsweredAccount(await getSignerAddress() as string))
     setMember(await isMemberAccount(await getSignerAddress() as string))
     setQuestions(await getQuestions())
@@ -43,7 +46,7 @@ export default function Home() {
       <div>
         <Header account={account} network={network} isAnswered={isAnswered} isMember={isMember} />
         <Container sx={{ p: 5 }} maxWidth="xl">
-          <Questions account={account} questions={questions} setQuestions={setQuestions} setLoading={setLoading}/>
+          <Questions account={account} questions={questions} setQuestions={setQuestions} setLoading={setLoading} />
         </Container>
         <Footer />
       </div>
