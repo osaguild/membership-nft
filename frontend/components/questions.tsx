@@ -48,9 +48,9 @@ export default function Questions(props: any) {
           {dom()}
         </div>
         <Box display="flex" justifyContent="center">
-          <Regist questions={props.questions} />
+          <Regist questions={props.questions} setLoading={props.setLoading} />
           <Box width="20px" />
-          <Join account={props.account} />
+          <Join account={props.account} setLoading={props.setLoading} />
         </Box>
       </div>
     )
