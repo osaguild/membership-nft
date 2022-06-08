@@ -1,13 +1,9 @@
-import AppBar from '@mui/material/AppBar'
-import Container from '@mui/material/Container'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Wallet from './wallet'
+import { AppBar, Container, Toolbar, Box, Typography } from '@mui/material'
+import Connect from './connect'
+import Network from './network'
 import Account from './account'
-import Login from './login'
 
-export default function Header(props: any) {
+export default function Header() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -16,9 +12,9 @@ export default function Header(props: any) {
             MemberShipNFT
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Wallet account={props.account} network={props.network} />
-          <Account account={props.account} isAnswered={props.isAnswered} isMember={props.isMember} />
-          <Login isMember={props.isMember} />
+          <Connect />
+          <Network />
+          <Account />
         </Toolbar>
       </Container>
     </AppBar>

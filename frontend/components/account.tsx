@@ -1,23 +1,29 @@
-import { Chip } from "@mui/material"
+import { Chip, Link, Button } from '@mui/material'
 import FaceIcon from "@mui/icons-material/Face"
-import Box from "@mui/material/Box"
+import { useProvider } from '../states/useProvider'
+import { useSigner } from '../states/useSigner'
+import { useAccount } from '../states/useAccount'
 
-export default function Account(props: any) {
+export default function Account() {
+  const provider = useProvider()
+  const signer = useSigner(provider)
+  const account = useAccount(provider, signer)
 
-  const dom = () => {
+  const init = () => {
     const list: JSX.Element[] = []
-    if (typeof props.account === "string")
-      list.push(<Chip key="user" color="primary" icon={<FaceIcon />} label={`...${props.account.slice(-3)}`} />)
-    if (typeof props.isAnswered === "boolean" && props.isAnswered === true)
+    if (account?.address !== undefined) {
+      list.push(<Chip key="user" color="primary" icon={<FaceIcon />} label={`...${account.address.slice(-3)}`} />)
+    }
+    if (account?.isAnswered === true) {
       list.push(<Chip key="isAnswered" color="primary" label="Answered" />)
-    if (typeof props.isMember === "boolean" && props.isMember === true)
+    }
+    if (account?.isMember === true) {
       list.push(<Chip key="isMember" color="primary" label="Member" />)
+      list.push(<Link key="lobin" href="/member"><Button variant="contained">Login</Button></Link>)
+    }
     return list
   }
 
-  if (dom().length > 0) {
-    return <Box>{dom()}</Box>
-  } else {
-    return <Box />
-  }
-} 
+  if (account !== undefined) return <div>{init()}</div>
+  else return <div></div>
+}
