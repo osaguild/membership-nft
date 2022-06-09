@@ -19,11 +19,17 @@ const setConfig = (): Config => {
     else return process.env.NEXT_PUBLIC_ETHER_SCAN_API_KEY
   }
 
+  const keyword = (): string => {
+    if (process.env.NEXT_PUBLIC_AUTH_KEYWORD === undefined) throw new Error("NEXT_PUBLIC_AUTH_KEYWORD is not defined.")
+    else return process.env.NEXT_PUBLIC_AUTH_KEYWORD
+  }
+
   return {
     NFT_CONTRACT_ADDRESS: nft(),
     MANAGER_CONTRACT_ADDRESS: manager(),
     CHECKER_CONTRACT_ADDRESS: checker(),
     ETHER_SCAN_API_KEY: ether(),
+    AUTH_KEYWORD: keyword(),
   }
 }
 

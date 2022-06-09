@@ -1,47 +1,60 @@
-import { useState, useEffect } from "react"
-import { useRouter } from "next/router"
-import { sign, getSignerAddress } from "../../lib/web3"
-import { getKeyword, authN, authR } from "../../lib/auth"
-import ReactLoading from "react-loading"
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { Container } from '@mui/system'
+import { SignatureLike } from '@ethersproject/bytes'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import { useProvider } from '../../states/useProvider'
+import { useSigner } from '../../states/useSigner'
+import { useToken } from '../../states/useToken'
+import { useAccount } from '../../states/useAccount'
+import { useNetwork } from '../../states/useNetwork'
+import { config } from '../../config/config'
 
 export default function Member() {
   const router = useRouter()
-  const [isLoading, setLoading] = useState(true)
-  const [account, setAccount] = useState<string | undefined>(undefined)
-  const [token, setToken] = useState<string | undefined>(undefined)
+  const [signature, setSignature] = useState<SignatureLike | undefined>()
+  const provider = useProvider()
+  const signer = useSigner(provider)
+  const account = useAccount(provider, signer)
+  const network = useNetwork(provider)
+  const token = useToken(signer, account, network, signature)
 
-  const success = (address: string, token: string) => {
-    setAccount(address)
-    setToken(token)
-    setLoading(false)
-  }
-  const failed = () => {
-    setLoading(false)
-    router.push("/")
-  }
-
-  const auth = async () => {
-    setLoading(true)
-    const signature = await sign(getKeyword())
-    const address = await getSignerAddress()
-    if (signature === undefined || address === undefined) return failed()
-    const token = await authN(signature, address)
-    if (token === undefined) return failed()
-    if (await authR(token, "/member")) return success(address, token)
+  const login = async () => {
+    if (provider === undefined || signer === undefined || account === undefined || network === undefined) {
+      console.log("not ready for signature")
+      setSignature(undefined)
+      return
+    } else if (signature === undefined) {
+      try {
+        setSignature(await signer.signMessage(config.AUTH_KEYWORD))
+        console.log("sign is success")
+      } catch (error) {
+        console.log("sign is failed (or rejected). go to top page")
+        router.push("/")
+      }
+    } else if (token === "MEMBER_TOKEN") {
+      console.log("login is success")
+    } else if (token === "NON_MEMBER_TOKEN") {
+      console.log("login is failed. non member user go to top page")
+      router.push("/")
+    } else if (token === "NON_AUTH_TOKEN") {
+      console.log("login is failed. non auth user go to top page")
+      router.push("/")
+    }
   }
 
   useEffect(() => {
-    auth()
-  }, [])
+    login()
+  }, [provider, signer, account, network, signature, token])
 
-  if (isLoading) {
-    return <ReactLoading type="bubbles" color="#99ffff" height="300px" width="300px" />
-  } else {
-    return (
-      <div>
-        Wellcome to Member Page
-      </div>
-    )
-  }
-
+  return (
+    <div>
+      <Header />
+      <Container sx={{ p: 5 }} maxWidth="xl" >
+        Welcome to Member Page!!
+      </Container >
+      <Footer />
+    </div>
+  )
 }

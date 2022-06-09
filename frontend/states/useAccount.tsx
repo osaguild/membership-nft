@@ -29,18 +29,10 @@ export const useAccount = (
         try {
             const isAnswered = await Checker__factory.connect(config.CHECKER_CONTRACT_ADDRESS, provider).isAnswered(address)
             const isMember = await Manager__factory.connect(config.MANAGER_CONTRACT_ADDRESS, provider).isMember(config.NFT_CONTRACT_ADDRESS, address)
-            setAccount({
-                address: address,
-                isAnswered: isAnswered,
-                isMember: isMember,
-            })
+            setAccount({ address: address, isAnswered: isAnswered, isMember: isMember })
         } catch (error) {
             console.log("useAccount.getAddress() is failed. Please check your network is supported", error)
-            setAccount({
-                address: address,
-                isAnswered: false,
-                isMember: false,
-            })
+            setAccount({ address: address, isAnswered: false, isMember: false })
         }
     }
 
@@ -51,6 +43,6 @@ export const useAccount = (
         })
         init(provider, signer)
     }, [provider, signer])
-    
+
     return account
 }

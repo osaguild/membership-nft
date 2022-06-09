@@ -1,4 +1,4 @@
-type Token = "MEMBER_TOKEN" | "NON_MEMBER_TOKEN"
+type Token = "NON_AUTH_TOKEN" | "MEMBER_TOKEN" | "NON_MEMBER_TOKEN"
 type Path = "/" | "/member"
 type Account = {
   address: string
@@ -22,4 +22,5 @@ type Config = {
   MANAGER_CONTRACT_ADDRESS: string
   CHECKER_CONTRACT_ADDRESS: string
   ETHER_SCAN_API_KEY: string
+  AUTH_KEYWORD: string
 }
