@@ -19,7 +19,7 @@ export default function Account() {
     }
     if (account?.isMember === true) {
       list.push(<Chip key="isMember" color="primary" label="Member" />)
-      list.push(<Link key="lobin" href="/member"><Button variant="contained">Login</Button></Link>)
+      list.push(<Link key="login" href="/member"><Button variant="contained">Login</Button></Link>)
     }
     return list
   }
