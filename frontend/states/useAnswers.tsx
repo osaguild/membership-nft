@@ -30,7 +30,6 @@ export const useAnswers = (
     }
 
     useEffect(() => {
-        console.log("[useAnswer]useEffect", _questions, _answers)
         if (questions !== _questions) init()
         else if (answers !== _answers) update()
     }, [_questions, _answers])

@@ -24,15 +24,13 @@ export const useQuestions = (provider: ethers.providers.Web3Provider | undefined
             }
             setQuestions(_questions)
         } catch (error) {
-            console.log("useQuestions is failed", error)
             setQuestions(undefined)
         }
     }
 
     useEffect(() => {
-        console.log("[useQuestions]useEffect")
         init()
     }, [provider])
-    
+
     return questions
 }

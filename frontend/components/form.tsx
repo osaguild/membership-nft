@@ -30,12 +30,11 @@ export default function Form() {
     if (signer === undefined || answers === undefined) return
     try {
       const [arrayIds, arrayAnswers] = answersToArray(answers)
-      console.log(arrayIds, arrayAnswers)
       const tx = await Checker__factory.connect(config.CHECKER_CONTRACT_ADDRESS, signer).registAnswers(arrayIds, arrayAnswers)
-      const result = await checkTransaction(tx.hash) ? "success" : "failed"
+      const result = await checkTransaction(tx.hash) ? "registAnswers() is success" : "registAnswers() is failed."
       console.log(result)
     } catch (error) {
-      console.log("failed", error)
+      console.log("registAnswers() is failed", error)
     }
   }
 
@@ -52,13 +51,12 @@ export default function Form() {
   const mint = async () => {
     if (signer === undefined || account === undefined) return
     try {
-      console.log(account.address)
       const tx = await Manager__factory.connect(config.MANAGER_CONTRACT_ADDRESS, signer)
         .addMember(config.NFT_CONTRACT_ADDRESS, config.CHECKER_CONTRACT_ADDRESS, account.address)
-      const result = await checkTransaction(tx.hash) ? "success" : "failed"
+      const result = await checkTransaction(tx.hash) ? "addMember() is success" : "addMember() is failed"
       console.log(result)
     } catch (error) {
-      console.log("failed", error)
+      console.log("addMember() is failed", error)
     }
   }
 
