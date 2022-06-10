@@ -1,9 +1,9 @@
-import { ethers } from 'ethers'
+import { Web3Provider } from '@ethersproject/providers'
 import { useState, useEffect } from 'react'
 import { Checker__factory } from "../../typechain-types"
 import { config } from "../../config"
 
-export const useQuestions = (provider: ethers.providers.Web3Provider | undefined) => {
+export const useQuestions = (provider: Web3Provider | undefined) => {
     const [questions, setQuestions] = useState<Question[] | undefined>()
 
     const init = async () => {

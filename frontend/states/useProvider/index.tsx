@@ -1,10 +1,10 @@
-import { ethers } from 'ethers'
+import { Web3Provider } from '@ethersproject/providers'
 import { useEffect, useState } from 'react'
 
-export const useProvider = (): ethers.providers.Web3Provider | undefined => {
-    const [provider, setProvider] = useState<ethers.providers.Web3Provider | undefined>()
+export const useProvider = (): Web3Provider | undefined => {
+    const [provider, setProvider] = useState<Web3Provider | undefined>()
     useEffect(() => {
-        setProvider(new ethers.providers.Web3Provider(window.ethereum))
+        setProvider(new Web3Provider(window.ethereum))
     }, [])
     return provider
 }

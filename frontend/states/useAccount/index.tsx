@@ -1,17 +1,17 @@
-import { ethers } from 'ethers'
+import { Web3Provider,JsonRpcSigner } from '@ethersproject/providers'
 import { useEffect, useState } from 'react'
 import { Manager__factory, Checker__factory } from "../../typechain-types"
 import { config } from "../../config"
 
 export const useAccount = (
-    provider: ethers.providers.Web3Provider | undefined,
-    signer: ethers.providers.JsonRpcSigner | undefined,
+    provider: Web3Provider | undefined,
+    signer: JsonRpcSigner | undefined,
 ) => {
     const [account, setAccount] = useState<Account | undefined>()
 
     const init = async (
-        provider: ethers.providers.Web3Provider | undefined,
-        signer: ethers.providers.JsonRpcSigner | undefined,
+        provider: Web3Provider | undefined,
+        signer: JsonRpcSigner | undefined,
     ) => {
         if (provider === undefined || signer === undefined) {
             setAccount(undefined)

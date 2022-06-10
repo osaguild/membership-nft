@@ -1,8 +1,8 @@
-import { ethers } from 'ethers'
+import { Web3Provider, Network } from '@ethersproject/providers'
 import { useState, useEffect } from 'react'
 
-export const useNetwork = (provider: ethers.providers.Web3Provider | undefined) => {
-    const [network, setNetwork] = useState<ethers.providers.Network | undefined>()
+export const useNetwork = (provider: Web3Provider | undefined) => {
+    const [network, setNetwork] = useState<Network | undefined>()
 
     useEffect(() => {
         // check chaninChange event
@@ -11,6 +11,6 @@ export const useNetwork = (provider: ethers.providers.Web3Provider | undefined) 
         })
         provider?.getNetwork().then(setNetwork)
     }, [provider])
-    
+
     return network
 }

@@ -1,12 +1,13 @@
+import { Web3Provider, JsonRpcSigner, Network } from '@ethersproject/providers'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { config } from "../../config"
 import { SignatureLike } from '@ethersproject/bytes'
 
 export const useToken = (
-    signer: ethers.providers.JsonRpcSigner | undefined,
+    signer: JsonRpcSigner | undefined,
     account: Account | undefined,
-    network: ethers.providers.Network | undefined,
+    network: Network | undefined,
     signature: SignatureLike | undefined,
 ) => {
     const [token, setToken] = useState<Token | undefined>()
