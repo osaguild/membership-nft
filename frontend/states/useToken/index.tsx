@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { config } from "../config/config"
+import { config } from "../../config"
 import { SignatureLike } from '@ethersproject/bytes'
 
 export const useToken = (

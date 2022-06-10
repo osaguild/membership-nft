@@ -1,5 +1,5 @@
 import axios from "axios"
-import { config } from "../config/config"
+import { config } from "../config"
 
 const URI = "https://api-rinkeby.etherscan.io/api?module=transaction&action="
 

@@ -9,7 +9,7 @@ import { useSigner } from '../../states/useSigner'
 import { useToken } from '../../states/useToken'
 import { useAccount } from '../../states/useAccount'
 import { useNetwork } from '../../states/useNetwork'
-import { config } from '../../config/config'
+import { config } from '../../config'
 
 export default function Member() {
   const router = useRouter()

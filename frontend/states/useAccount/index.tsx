@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { Manager__factory, Checker__factory } from "../typechain-types"
-import { config } from "../config/config"
+import { Manager__factory, Checker__factory } from "../../typechain-types"
+import { config } from "../../config"
 
 export const useAccount = (
     provider: ethers.providers.Web3Provider | undefined,

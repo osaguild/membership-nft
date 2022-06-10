@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
-import { Checker__factory } from "../typechain-types"
-import { config } from "../config/config"
+import { Checker__factory } from "../../typechain-types"
+import { config } from "../../config"
 
 export const useQuestions = (provider: ethers.providers.Web3Provider | undefined) => {
     const [questions, setQuestions] = useState<Question[] | undefined>()
