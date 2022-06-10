@@ -1,8 +1,8 @@
 import { Chip, Link, Button } from '@mui/material'
 import FaceIcon from "@mui/icons-material/Face"
-import { useProvider } from '../states/useProvider'
-import { useSigner } from '../states/useSigner'
-import { useAccount } from '../states/useAccount'
+import { useProvider } from '../../states/useProvider'
+import { useSigner } from '../../states/useSigner'
+import { useAccount } from '../../states/useAccount'
 
 export default function Account() {
   const provider = useProvider()

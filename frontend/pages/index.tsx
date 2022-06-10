@@ -1,7 +1,7 @@
 import { Container } from '@mui/material'
-import Header from '../components/header'
-import Questions from '../components/form'
-import Footer from '../components/footer'
+import Header from '../components/Header'
+import Questions from '../components/Form'
+import Footer from '../components/Footer'
 
 export default function Home() {
   return (

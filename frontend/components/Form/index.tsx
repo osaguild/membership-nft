@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Checkbox, Typography, Box, Button } from '@mui/material'
 import ErrorIcon from '@mui/icons-material/Error'
-import { useProvider } from '../states/useProvider'
-import { useSigner } from '../states/useSigner'
-import { useQuestions } from '../states/useQuestions'
-import { useAnswers } from '../states/useAnswers'
-import { useAccount } from '../states/useAccount'
-import { config } from '../config/config'
-import { Manager__factory, Checker__factory } from "../typechain-types"
-import { checkTransaction } from '../lib/etherScan'
+import { useProvider } from '../../states/useProvider'
+import { useSigner } from '../../states/useSigner'
+import { useQuestions } from '../../states/useQuestions'
+import { useAnswers } from '../../states/useAnswers'
+import { useAccount } from '../../states/useAccount'
+import { config } from '../../config/config'
+import { Manager__factory, Checker__factory } from "../../typechain-types"
+import { checkTransaction } from '../../lib/etherScan'
 
 export default function Form() {
   const [_answers, _setAnswers] = useState<Answer[] | undefined>()

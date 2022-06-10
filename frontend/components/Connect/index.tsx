@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
-import { useProvider } from '../states/useProvider'
-import { useSigner } from '../states/useSigner'
-import { useAccount } from '../states/useAccount'
+import { useProvider } from '../../states/useProvider'
+import { useSigner } from '../../states/useSigner'
+import { useAccount } from '../../states/useAccount'
 
 export default function Connect() {
     const provider = useProvider()

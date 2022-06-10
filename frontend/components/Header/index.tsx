@@ -1,8 +1,8 @@
 import { AppBar, Container, Toolbar, Box, Typography } from '@mui/material'
 import Link from 'next/link'
-import Connect from './connect'
-import Network from './network'
-import Account from './account'
+import Connect from '../Connect'
+import Network from '../Network'
+import Account from '../Account'
 
 export default function Header() {
   return (

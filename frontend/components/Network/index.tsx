@@ -1,6 +1,6 @@
 import { Select, MenuItem, SelectChangeEvent } from '@mui/material'
-import { useProvider } from '../states/useProvider'
-import { useNetwork } from '../states/useNetwork'
+import { useProvider } from '../../states/useProvider'
+import { useNetwork } from '../../states/useNetwork'
 
 export default function Network() {
   const provider = useProvider()
