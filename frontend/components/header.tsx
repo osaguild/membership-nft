@@ -1,4 +1,5 @@
 import { AppBar, Container, Toolbar, Box, Typography } from '@mui/material'
+import Link from 'next/link'
 import Connect from './connect'
 import Network from './network'
 import Account from './account'
@@ -8,9 +9,11 @@ export default function Header() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar>
-          <Typography variant="h6" component="div">
-            MemberShipNFT
-          </Typography>
+          <Link href="/">
+            <Typography variant="h6" component="div">
+              MemberShipNFT
+            </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Connect />
           <Network />
