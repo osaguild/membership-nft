@@ -1,4 +1,4 @@
-import { Web3Provider, JsonRpcSigner, Network } from '@ethersproject/providers'
+import { JsonRpcSigner, Network } from '@ethersproject/providers'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { config } from "../../config"

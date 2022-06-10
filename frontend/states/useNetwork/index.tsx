@@ -1,7 +1,7 @@
-import { Web3Provider, Network } from '@ethersproject/providers'
+import { JsonRpcProvider, Network } from '@ethersproject/providers'
 import { useState, useEffect } from 'react'
 
-export const useNetwork = (provider: Web3Provider | undefined) => {
+export const useNetwork = (provider: JsonRpcProvider | undefined) => {
     const [network, setNetwork] = useState<Network | undefined>()
 
     useEffect(() => {

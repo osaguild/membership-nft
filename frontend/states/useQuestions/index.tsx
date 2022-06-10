@@ -1,9 +1,9 @@
-import { Web3Provider } from '@ethersproject/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { useState, useEffect } from 'react'
 import { Checker__factory } from "../../typechain-types"
 import { config } from "../../config"
 
-export const useQuestions = (provider: Web3Provider | undefined) => {
+export const useQuestions = (provider: JsonRpcProvider | undefined) => {
     const [questions, setQuestions] = useState<Question[] | undefined>()
 
     const init = async () => {
