@@ -20,14 +20,14 @@ export default function Member() {
   const network = useNetwork(provider)
   const token = useToken(signer, account, network, signature)
 
-  const login = async () => {
+
+  useEffect(() => {
     if (provider === undefined || signer === undefined || account === undefined || network === undefined) {
       console.log("not ready for signature")
       setSignature(undefined)
-      return
     } else if (signature === undefined) {
       try {
-        setSignature(await signer.signMessage(config.AUTH_KEYWORD))
+        signer.signMessage(config.AUTH_KEYWORD).then(setSignature)
         console.log("sign is success")
       } catch (error) {
         console.log("sign is failed (or rejected). go to top page")
@@ -42,11 +42,7 @@ export default function Member() {
       console.log("login is failed. non auth user go to top page")
       router.push("/")
     }
-  }
-
-  useEffect(() => {
-    login()
-  }, [provider, signer, account, network, signature, token])
+  }, [provider, signer, account, network, signature, token, router])
 
   return (
     <div>
