@@ -23,4 +23,5 @@ type Config = {
   CHECKER_CONTRACT_ADDRESS: string
   ETHER_SCAN_API_KEY: string
   AUTH_KEYWORD: string
+  TEST_USER_ADDRESS: string
 }

@@ -24,12 +24,18 @@ const setConfig = (): Config => {
     else return process.env.NEXT_PUBLIC_AUTH_KEYWORD
   }
 
+  const test = (): string => {
+    if (process.env.NEXT_PUBLIC_TEST_USER_ADDRESS === undefined) throw new Error("NEXT_PUBLIC_TEST_USER_ADDRESS is not defined.")
+    else return process.env.NEXT_PUBLIC_TEST_USER_ADDRESS
+  }
+
   return {
     NFT_CONTRACT_ADDRESS: nft(),
     MANAGER_CONTRACT_ADDRESS: manager(),
     CHECKER_CONTRACT_ADDRESS: checker(),
     ETHER_SCAN_API_KEY: ether(),
     AUTH_KEYWORD: keyword(),
+    TEST_USER_ADDRESS: test()
   }
 }
 
