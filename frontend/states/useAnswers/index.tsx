@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 export const useAnswers = (
     _questions: Question[] | undefined,
     _answers: Answer[] | undefined,
-) => {
+): Answer[] | undefined => {
     const [questions, setQuestions] = useState<Question[] | undefined>()
     const [answers, setAnswers] = useState<Answer[] | undefined>()
 

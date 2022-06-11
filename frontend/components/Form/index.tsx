@@ -66,8 +66,8 @@ export default function Form() {
     else {
       for (let i = 0; i < questions.length; i++) {
         list.push(
-          <Typography variant="body1" key={questions[i].id} gutterBottom>
-            <Checkbox checked={answers[i].answer} onChange={handleChange} name={questions[i].id.toString()} />
+          <Typography variant="body1" key={questions[i].id} role={`question${questions[i].id.toString()}`} gutterBottom>
+            <Checkbox checked={answers[i].answer} onChange={handleChange} name={questions[i].id.toString()} data-testid={`answer${questions[i].id.toString()}`} />
             {questions[i].question}
           </Typography>
         )
