@@ -18,7 +18,7 @@ export default function Network() {
     return (
       <Select value={network.chainId} style={{ color: "white" }} size="small" onChange={switchChain}>
         <MenuItem value={1}>Ethereum</MenuItem>
-        <MenuItem value={4}>Rinkby</MenuItem>
+        <MenuItem value={4}>Rinkeby</MenuItem>
         <MenuItem value={137}>Matic</MenuItem>
       </Select>
     )

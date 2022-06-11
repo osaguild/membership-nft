@@ -1,7 +1,7 @@
 import { JsonRpcProvider, Network } from '@ethersproject/providers'
 import { useState, useEffect } from 'react'
 
-export const useNetwork = (provider: JsonRpcProvider | undefined) => {
+export const useNetwork = (provider: JsonRpcProvider | undefined): Network | undefined => {
     const [network, setNetwork] = useState<Network | undefined>()
 
     useEffect(() => {
