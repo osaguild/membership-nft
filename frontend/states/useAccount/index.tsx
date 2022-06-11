@@ -1,4 +1,4 @@
-import { JsonRpcProvider,JsonRpcSigner } from '@ethersproject/providers'
+import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
 import { useEffect, useState } from 'react'
 import { Manager__factory, Checker__factory } from "../../typechain-types"
 import { config } from "../../config"
@@ -6,7 +6,7 @@ import { config } from "../../config"
 export const useAccount = (
     provider: JsonRpcProvider | undefined,
     signer: JsonRpcSigner | undefined,
-) => {
+): Account | undefined => {
     const [account, setAccount] = useState<Account | undefined>()
 
     const init = async (
